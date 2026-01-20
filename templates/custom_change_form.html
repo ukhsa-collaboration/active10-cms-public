@@ -1,0 +1,9 @@
+{% extends 'admin/change_form.html' %}
+{% block submit_buttons_bottom %}
+    {{ block.super }}
+    {% if original %}
+        <div class="submit-row">
+            <a href="{% url 'revert-view' id=original.pk %}" class="deletelink" style="max-width: 100px; text-align: center; float: right;background-color:#4CAF50">REVERT</a>
+        </div>
+    {% endif %}
+{% endblock %}

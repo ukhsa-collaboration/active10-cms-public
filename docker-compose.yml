@@ -1,0 +1,40 @@
+version: "3"
+services:
+  postgres:
+    image: postgres:9.6-alpine
+    restart: unless-stopped
+    ports:
+      - "5432"
+    volumes:
+      - active10_db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=docker1
+      - POSTGRES_USER=docker1
+      - POSTGRES_PASSWORD=docker1
+
+  static:
+    image: busybox
+    volumes:
+      - ./static:/app/static
+
+  api:
+    build: .
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/app
+      - staticfiles:/app/static
+    env_file: .docker-env
+    command: >
+      bash -c "./manage.py migrate --noinput &&
+               ./manage.py collectstatic --noinput &&
+               ./manage.py runserver 0.0.0.0:8000"
+    links:
+      - postgres
+    depends_on:
+      - postgres
+
+volumes:
+  active10_db:
+    external: true
+  staticfiles:
