@@ -410,7 +410,7 @@ if getenv("AWS_STORAGE_BUCKET_NAME", None) is not None:
     # Consider making a variable as well
     AWS_LOCATION = "eu-west-2"
 
-    AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
+    AWS_S3_CUSTOM_DOMAIN = getenv("CDN_DOMAIN", f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com")
 
     # s3 static settings
     STATIC_LOCATION = ""
@@ -459,18 +459,20 @@ CSRF_COOKIE_AGE = 86400  # 1 day
 SESSION_COOKIE_SECURE = True  # Ensures the session cookie is only sent over HTTPS
 SESSION_COOKIE_AGE = 86400  # 1 day
 
-CSP_DEFAULT_SRC = ("'self'", "*.s3.amazonaws.com", "https://www.gravatar.com")
+CSP_DEFAULT_SRC = ("'self'", "*.s3.amazonaws.com", AWS_S3_CUSTOM_DOMAIN, "https://www.gravatar.com")
 CSP_STYLE_SRC = (
     "'self'",
     "*.s3.amazonaws.com",
+    AWS_S3_CUSTOM_DOMAIN,
     "https://www.gravatar.com",
     "'unsafe-inline'",
 )
 CSP_SCRIPT_SRC = (
     "'self'",
     "*.s3.amazonaws.com",
+    AWS_S3_CUSTOM_DOMAIN,
     "https://www.gravatar.com",
     "'unsafe-inline'",
 )
-CSP_IMG_SRC = ("'self'", "*.s3.amazonaws.com", "https://www.gravatar.com")
-CSP_FONT_SRC = ("'self'", "*.s3.amazonaws.com", "https://www.gravatar.com")
+CSP_IMG_SRC = ("'self'", "*.s3.amazonaws.com", AWS_S3_CUSTOM_DOMAIN, "https://www.gravatar.com")
+CSP_FONT_SRC = ("'self'", "*.s3.amazonaws.com", AWS_S3_CUSTOM_DOMAIN, "https://www.gravatar.com")
