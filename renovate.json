@@ -3,4 +3,4 @@
     "extends": [
       "github>ukhsa-collaboration/renovate:renovate.json"
     ]
-}  
+}
