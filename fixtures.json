@@ -1,0 +1,782 @@
+[
+  {
+    "model": "about_one_you.application",
+    "pk": 1,
+    "fields": {
+      "name": "Couch To 5K",
+      "description": "The Couch to 5K app has been designed to get you off the couch and running in just nine weeks.",
+      "ios": "https://itunes.apple.com/gb/app/one-you-couch-to-5k/id1082307672?mt=8",
+      "android": "https://itunes.apple.com/gb/app/one-you-couch-to-5k/id1082307672?mt=8",
+      "icon": "c25k.png",
+      "list_order": 1
+    }
+  },
+  {
+    "model": "about_one_you.application",
+    "pk": 2,
+    "fields": {
+      "name": "Easy Meals",
+      "description": "Our free Easy Meals app is a great way to eat tasty, healthier food the whole family will love.",
+      "ios": "https://itunes.apple.com/gb/app/one-you-easy-meals/id1082307333?mt=8",
+      "android": "https://itunes.apple.com/gb/app/one-you-easy-meals/id1082307333?mt=8",
+      "icon": "Easy_meals.png",
+      "list_order": 0
+    }
+  },
+  {
+    "model": "about_one_you.application",
+    "pk": 3,
+    "fields": {
+      "name": "Drink Free Days",
+      "description": "A simple and way to track the days you drink alcohol and the days you don't.",
+      "ios": "https://itunes.apple.com/gb/app/one-you-drink-free-days/id1196694906?mt=8",
+      "android": "https://itunes.apple.com/gb/app/one-you-drink-free-days/id1196694906?mt=8",
+      "icon": "drinkfree.jpg",
+      "list_order": 2
+    }
+  },
+  {
+    "model": "about_one_you.aboutoneyou",
+    "pk": 1,
+    "fields": {
+      "text": "Modern life makes it hard to be healthy.\r\nWithout knowing it, by the time we reach our 40s and 50s, many of us will have dramatically increased our chances of becoming ill later in life. The good news is we can fight back. One You is here to help you get back to a healthier you - providing tools, ideas and encouragement to make the simple changes that can add up to a longer and happier life. because there is only One You"
+    }
+  },
+  {
+    "model": "discover.splashscreen",
+    "pk": 1,
+    "fields": {
+      "title": "HEALTH UNLOCKED",
+      "text": "HealthUnlocked is a social network for health. Join the Active 10 community and meet thousands of people doing the programme along with you.\r\nThis link to third parties sites and resources are provided for your information only. Such links should not be",
+      "button": "Visit Health Unlocked",
+      "link": "https://healthunlocked.com",
+      "list_order": 0
+    }
+  },
+  {
+    "model": "discover.discover",
+    "pk": 1,
+    "fields": {
+      "name_type": "text",
+      "name_text": "HealthUnlocked",
+      "name_image_url": null,
+      "name_image": "",
+      "alt_text": null,
+      "description": "Join hundreds of people already discussing their Active 10 journey.",
+      "action": "Join the community",
+      "colour": "#32b678",
+      "border_colour": "#269762",
+      "splash_screen": 1,
+      "list_order": 0
+    }
+  },
+  {
+    "model": "discover.discover",
+    "pk": 2,
+    "fields": {
+      "name_type": "text",
+      "name_text": "ONE YOU",
+      "name_image_url": null,
+      "name_image": "",
+      "alt_text": null,
+      "description": "Want to unlock a healthier version of yourself? Discover tools and tips that will help you do just that.",
+      "action": "Find out more",
+      "colour": "#00a4a6",
+      "border_colour": "#007879",
+      "splash_screen": null,
+      "list_order": 1
+    }
+  },
+  {
+    "model": "discover.cta",
+    "pk": 1,
+    "fields": {
+      "button": "Find out more",
+      "link": "http://www.activityalliance.org.uk/"
+    }
+  },
+  {
+    "model": "discover.cta",
+    "pk": 2,
+    "fields": {
+      "button": "Download here",
+      "link": "https://apps.apple.com/gb/app/one-you-couch-to-5k/id1082307672"
+    }
+  },
+  {
+    "model": "discover.cta",
+    "pk": 3,
+    "fields": {
+      "button": "Find out more",
+      "link": "https://www.nhs.uk/live-well/exercise/"
+    }
+  },
+  {
+    "model": "discover.cta",
+    "pk": 4,
+    "fields": {
+      "button": "Find out more",
+      "link": "https://www.nhs.uk/oneyou/for-your-mind/action-plan/"
+    }
+  },
+  {
+    "model": "discover.tip",
+    "pk": 1,
+    "fields": {
+      "title": "START SMALL",
+      "message": "Start small and build up gradually with a brisk 10 minute walk every day...",
+      "fulltext": "Start small and build up gradually with a brisk 10 minute walk every day and help improve your health. Every minute counts but it's good to aim for at least 10 minutes at a time.\r\nAll your brisk walking counts and is simply walking quicker at a pace that gets your heart pumping. Start with a target of achieving 1 x 10 minutes brisk walking a day and then try to build up gradually to more. You can set your own daily target via the app settings to help give you something to aim for.\r\nAs long as you have your phone on you, we'll track all your walking whether it's brisk or not. So you just need to think about how to fit an Active 10 into your day! You could walk part of your journey home, pop to the shops on foot, or just head out to get some fresh air. No gym memberships, no brightly coloured Lycra. Just 10 minutes and you!",
+      "image": "start_small.jpg",
+      "cta": null
+    }
+  },
+  {
+    "model": "discover.tip",
+    "pk": 2,
+    "fields": {
+      "title": "WALK YOUR WAY TO IMPROVED HEALTH",
+      "message": "A regular 10 minute brisk walk can do wonders...",
+      "fulltext": "Physical activity for good health and wellbeing\r\nThere is no minimum amount of physical activity required for health benefits to be seen. Regular physical activity provides a range of physical and mental health benefits. These include: prevention and management of disease; and development and maintenance of physical and mental function.The UK Chief Medical Officers recommend people are active every day. Spreading activity across the day or week such as walking at a moderate or brisk pace can help make the guidelines more achievable within daily living. Setting specific targets – such as at least 10 minutes a day or 150 mins a week (15 Active 10s)– are effective targets if you are like lots of other people who find it difficult to be more active.",
+      "image": "walk_your_way.jpg",
+      "cta": null
+    }
+  },
+  {
+    "model": "discover.tip",
+    "pk": 3,
+    "fields": {
+      "title": "MENTAL HEALTH AND WELLBEING",
+      "message": "Just like our physical health there are things we can all do to help look after...",
+      "fulltext": "Just like our physical health, there are things we can all do to help look after our mental health and wellbeing.\r\nHaving good mental health can help us feel better, sleep better and support us in doing the things we want to do. It can also help us have more positive relationships with those around us.\r\nGetting active is one great way to look after your mental health. Studies have shown that walking briskly for 10 minutes each day can be good for mild and moderate depression and help improve improve your mood.\r\nFollow the link below to hear from people working through their own mental health problems, as well as from experts who explain more about how to manage and improve your wellbeing, in our videos. And if you want information on helping someone you care about, get tips and advice on helping others struggling with their mental health.",
+      "image": "mental_health.png",
+      "cta": 4
+    }
+  },
+  {
+    "model": "discover.tip",
+    "pk": 4,
+    "fields": {
+      "title": "BE ACTIVE WITH A DISABILITY",
+      "message": "There are many ways to stay active with a disability. We share some great ideas from the NHS guide to getting more active.",
+      "fulltext": "There are many ways for everyone to enjoy an active lifestyle. If you have a disability or long-term condition, physical activity is just as important for your health. Benefits of physical activity can include:\r\n- preventing ill health\r\n- helping maintain a healthy weight\r\n- maintaining your ability to undertake mental and physical tasks of everyday life\r\nThe recommendations for how much you need to be active for good health are the same and there is extra support and advice available for you. This includes through the Activity Alliance for disabled people and the \\\"We are Unbeatable\\\" campaign by UK health charities if you have a long-term condition.",
+      "image": "be_active_with.jpg",
+      "cta": 1
+    }
+  },
+  {
+    "model": "discover.tip",
+    "pk": 5,
+    "fields": {
+      "title": "READY FOR THE NEXT STEP?",
+      "message": "Check the Free Couch to 5k app, supported by the BBC Get Inspired.",
+      "fulltext": "The Couch to 5k programme is designed for beginners like you to help you gradually build your confidence, fitness and running ability so you can eventually run 5km without stopping.\r\nThe 9 week plan has been tried and tested by millions of new runners just like you. It puts you in the control seat, allowing you to repeat any one of the weeks until you feel physically ready to move onto the next week.\r\nThere's a choice of 5 trainers to support and motivate you at every step of the way including Olympian Michael Johnson, comedians Sarah Milican and Sanjeev Kohli and BBC presenter Jo Whiley. As well as our very own Laura, who has helped hundreds of thousands of people start their own running journeys through the series of NHS running podcasts.",
+      "image": "ready_for_next.jpg",
+      "cta": 2
+    }
+  },
+  {
+    "model": "discover.tip",
+    "pk": 6,
+    "fields": {
+      "title": "HOW MUCH PHYSICAL ACTIVITY SHOULD YOU DO?",
+      "message": "Get the lowdown on how much you need to stay healthy.",
+      "fulltext": "The more the better but even small amounts of exercise bring benefits so build up gradually over time. To stay healthy, adults aged 19 to 64 should try to be active daily and should do:\r\nAt least 150 minutes of moderate aerobic activity such as cycling or brisk walking every week. As well as strengthening activities at least twice a week that work all the major muscles (legs, hips, back, abdomen, chest, shoulders and arms).\r\n150 minutes might sound like a lot, but you can build up slowly. Minimise time spent stationary and break up long inactivity with at least light intensity physical activity. Over time, if you can manage 3 Active 10s a day on 5 days of the week, you'd hit that target!\r\nFor more information on how the recommended levels of exercise for staying healthy, visit the page below.",
+      "image": "how_much.jpg",
+      "cta": 3
+    }
+  },
+  {
+    "model": "faq.faq",
+    "pk": 1,
+    "fields": {
+      "title": "What is an Active 10?",
+      "text": "An Active 10 is simply 10 minutes of walking briskly, that is, walking quicker than usual at a pace that gets your heart pumping. To achieve an Active 10 you just need to clock up 10 minutes of brisk walking in one day. Every minute of brisk walking you do counts and you don't have to walk 10 minutes all in one go. We'll record all your brisk minutes, even if they're spread out across the day.",
+      "list_order": 0
+    }
+  },
+  {
+    "model": "faq.faq",
+    "pk": 2,
+    "fields": {
+      "title": "Why is walking briskly good for my health?",
+      "text": "There is evidence to show that a brisk 10 minute walk each day brings the following health benefits:\r\n• Increased physical fitness\r\n• Greater ease in performing everyday physical activities\r\n• Improved mood\r\n• Improved quality of life\r\n• Increased physical leanness and healthier weight\r\nA regular 10 minute brisk walk can make you feel better in so many ways. It can boost your energy, clear your head and lift your mood, as well as lowering your risk of serious illnesses like heart disease, type 2 diabetes, dementia and some cancers",
+      "list_order": 0
+    }
+  },
+  {
+    "model": "faq.faq",
+    "pk": 3,
+    "fields": {
+      "title": "How can I tell that I'm walking briskly?",
+      "text": "Brisk walking is simply walking quicker than usual, at a pace that gets your heart pumping faster and makes you feel slightly out of breath. A good rule of thumb is that you're walking briskly if you can still talk, but not sing!\r\nThe app records your brisk walking as you're doing it, so if you want to check you're achieving a brisk pace, take a look at the app when you're walking. If you're walking briskly the horseshoe will 'fill up' more for every minute you do.",
+      "list_order": 0
+    }
+  },
+  {
+    "model": "faq.faq",
+    "pk": 4,
+    "fields": {
+      "title": "What does the 'walking man' icon show?",
+      "text": "On Today's Walk, the 'walking man' icon should start moving when your phone detects that you are walking briskly. Every device is different so depending on what type of phone you use, it may take up to twenty seconds for the 'walking man' to start moving. Don't worry, even when he's not moving, we're still tracking your walking and whether or not it's brisk.",
+      "list_order": 0
+    }
+  },
+  {
+    "model": "faq.faq",
+    "pk": 5,
+    "fields": {
+      "title": "How is my location data used?",
+      "text": "The app sends location information to a database to be analysed, but this data is anonymised and cannot be linked to a particular individual. This information is used to assess the success of the app, to feed into future improvements and research into mobility and physical activity. Allowing the app to track your location is optional and can be changed anytime in the 'app settings' section of your phone.",
+      "list_order": 0
+    }
+  },
+  {
+    "model": "faq.faq",
+    "pk": 6,
+    "fields": {
+      "title": "How accurate is the app?",
+      "text": "The app works using the motion sensors on your phone, so accuracy will vary depending on the age and model of your particular device. Accuracy can also be affected by how the phone is carried &ndash; for best results we recommend that you carry it in a pocket close to your body rather than in a handbag or rucksack.",
+      "list_order": 0
+    }
+  },
+  {
+    "model": "my_walks.mywalk",
+    "pk": 1,
+    "fields": {
+      "condition": "days_today_no_walking",
+      "text": "Your brisk walking rewards will be displayed here"
+    }
+  },
+  {
+    "model": "my_walks.mywalk",
+    "pk": 2,
+    "fields": {
+      "condition": "days_target_hit",
+      "text": "Great work! You hit your target!"
+    }
+  },
+  {
+    "model": "my_walks.mywalk",
+    "pk": 3,
+    "fields": {
+      "condition": "days_target_no_hit",
+      "text": "You didn't quite hit your target but you've still clocked up %d mins brisk walking!"
+    }
+  },
+  {
+    "model": "my_walks.mywalk",
+    "pk": 4,
+    "fields": {
+      "condition": "days_no_brisk_walking",
+      "text": "Struggling to fit in brisk walking? Check our tips for some helpful guidance"
+    }
+  },
+  {
+    "model": "my_walks.mywalk",
+    "pk": 5,
+    "fields": {
+      "condition": "weeks_current",
+      "text": "Keep coming back to see your progress this week."
+    }
+  },
+  {
+    "model": "my_walks.mywalk",
+    "pk": 6,
+    "fields": {
+      "condition": "weeks_last_target_hit_can_increase",
+      "text": "You hit your target every day this week! Shall we step it up for next week?"
+    }
+  },
+  {
+    "model": "my_walks.mywalk",
+    "pk": 7,
+    "fields": {
+      "condition": "weeks_last_target_4_to_6_can_increase",
+      "text": "You hit your target on %d days this week. Good work!"
+    }
+  },
+  {
+    "model": "my_walks.mywalk",
+    "pk": 8,
+    "fields": {
+      "condition": "weeks_last_target_1_days_1",
+      "text": "You hit your target on 1 days this week. We're with you every step of the way to help you get more active!"
+    }
+  },
+  {
+    "model": "my_walks.mywalk",
+    "pk": 9,
+    "fields": {
+      "condition": "weeks_last_target_x_days_1",
+      "text": "You hit your target on 1 day this week. Remember you can adjust your targets - it's good to start small and build up!"
+    }
+  },
+  {
+    "model": "my_walks.mywalk",
+    "pk": 10,
+    "fields": {
+      "condition": "weeks_last_target_1_days_x",
+      "text": "You hit your target on %d days this week. We're with you every step of the way to help you get more active!"
+    }
+  },
+  {
+    "model": "my_walks.mywalk",
+    "pk": 11,
+    "fields": {
+      "condition": "weeks_last_target_x_days_x",
+      "text": "You hit your target on %d days this week. Remember you can adjust your targets - it's good to start small and build up!"
+    }
+  },
+  {
+    "model": "my_walks.mywalk",
+    "pk": 12,
+    "fields": {
+      "condition": "weeks_brisk_150",
+      "text": "You hit the weekly recommended level for activity! Find out more."
+    }
+  },
+  {
+    "model": "my_walks.mywalk",
+    "pk": 13,
+    "fields": {
+      "condition": "weeks_days_7",
+      "text": "You hit your target every day this week. Great work!"
+    }
+  },
+  {
+    "model": "my_walks.mywalk",
+    "pk": 14,
+    "fields": {
+      "condition": "weeks_days_4_6",
+      "text": "You hit your target on %d days this week. Good work!"
+    }
+  },
+  {
+    "model": "my_walks.mywalk",
+    "pk": 15,
+    "fields": {
+      "condition": "weeks_days_0",
+      "text": "Looks like you haven't quite reached your targets this week. But don't let that stop you - you can do this!"
+    }
+  },
+  {
+    "model": "my_walks.mywalk",
+    "pk": 16,
+    "fields": {
+      "condition": "weeks_days_1",
+      "text": "You hit your target on 1 day this week. Try and increase more of your walking to brisk to stay on track."
+    }
+  },
+  {
+    "model": "my_walks.mywalk",
+    "pk": 17,
+    "fields": {
+      "condition": "weeks_days_2_3",
+      "text": "You hit your target on %d days this week. Try and increase more of your walking to brisk to stay on track."
+    }
+  },
+  {
+    "model": "my_walks.todaywalk",
+    "pk": 1,
+    "fields": {
+      "target_name": "target_1_a10s"
+    }
+  },
+  {
+    "model": "my_walks.todaywalk",
+    "pk": 2,
+    "fields": {
+      "target_name": "target_2_a10s"
+    }
+  },
+  {
+    "model": "my_walks.todaywalk",
+    "pk": 3,
+    "fields": {
+      "target_name": "target_3_a10s"
+    }
+  },
+  {
+    "model": "my_walks.target",
+    "pk": 1,
+    "fields": {
+      "condition": "0_a10s_0_mins",
+      "text": "Let's get brisk walking to achieve an Active 10",
+      "target": 1
+    }
+  },
+  {
+    "model": "my_walks.target",
+    "pk": 2,
+    "fields": {
+      "condition": "0_a10s_x_mins",
+      "text": "Keep going to get today's first Active 10",
+      "target": 1
+    }
+  },
+  {
+    "model": "my_walks.target",
+    "pk": 3,
+    "fields": {
+      "condition": "1_a10s_0_mins",
+      "text": "Congratulations, you hit your target!",
+      "target": 1
+    }
+  },
+  {
+    "model": "my_walks.target",
+    "pk": 4,
+    "fields": {
+      "condition": "1_a10s_x_mins",
+      "text": "Keep going to get your second Active 10 of the day!",
+      "target": 1
+    }
+  },
+  {
+    "model": "my_walks.target",
+    "pk": 5,
+    "fields": {
+      "condition": "2_a10s_0_mins",
+      "text": "Fantastic! Two Active 10s Today so far!",
+      "target": 1
+    }
+  },
+  {
+    "model": "my_walks.target",
+    "pk": 6,
+    "fields": {
+      "condition": "2_a10s_x_mins",
+      "text": "You're on a roll! Keep going for a third Active 10!",
+      "target": 1
+    }
+  },
+  {
+    "model": "my_walks.target",
+    "pk": 7,
+    "fields": {
+      "condition": "3_a10s_0_mins",
+      "text": "Brilliant work! You've achieved three Active 10s today!",
+      "target": 1
+    }
+  },
+  {
+    "model": "my_walks.target",
+    "pk": 8,
+    "fields": {
+      "condition": "3_a10s_x_mins",
+      "text": "You're on a roll! Great work today!",
+      "target": 1
+    }
+  },
+  {
+    "model": "my_walks.target",
+    "pk": 9,
+    "fields": {
+      "condition": "more_than_3_active_tens",
+      "text": "You're on a roll! Great work today!",
+      "target": 1
+    }
+  },
+  {
+    "model": "my_walks.target",
+    "pk": 10,
+    "fields": {
+      "condition": "0_a10s_0_mins",
+      "text": "Let's get brisk walking to achieve an Active 10",
+      "target": 2
+    }
+  },
+  {
+    "model": "my_walks.target",
+    "pk": 11,
+    "fields": {
+      "condition": "0_a10s_x_mins",
+      "text": "Keep going to get today's first Active 10",
+      "target": 2
+    }
+  },
+  {
+    "model": "my_walks.target",
+    "pk": 12,
+    "fields": {
+      "condition": "1_a10s_0_mins",
+      "text": "Great work, you've got one Active 10",
+      "target": 2
+    }
+  },
+  {
+    "model": "my_walks.target",
+    "pk": 13,
+    "fields": {
+      "condition": "1_a10s_x_mins",
+      "text": "Keep going to get your second Active 10 of the day!",
+      "target": 2
+    }
+  },
+  {
+    "model": "my_walks.target",
+    "pk": 14,
+    "fields": {
+      "condition": "2_a10s_0_mins",
+      "text": "Congratulations, you hit your target!",
+      "target": 2
+    }
+  },
+  {
+    "model": "my_walks.target",
+    "pk": 15,
+    "fields": {
+      "condition": "2_a10s_x_mins",
+      "text": "You're on a roll! Keep going for a third Active 10!",
+      "target": 2
+    }
+  },
+  {
+    "model": "my_walks.target",
+    "pk": 16,
+    "fields": {
+      "condition": "3_a10s_0_mins",
+      "text": "Brilliant work! You've achieved three Active 10s today!",
+      "target": 2
+    }
+  },
+  {
+    "model": "my_walks.target",
+    "pk": 17,
+    "fields": {
+      "condition": "3_a10s_x_mins",
+      "text": "You're on a roll! Great work today!",
+      "target": 2
+    }
+  },
+  {
+    "model": "my_walks.target",
+    "pk": 18,
+    "fields": {
+      "condition": "more_than_3_active_tens",
+      "text": "You're on a roll! Great work today!",
+      "target": 2
+    }
+  },
+  {
+    "model": "my_walks.target",
+    "pk": 19,
+    "fields": {
+      "condition": "0_a10s_0_mins",
+      "text": "Let's get brisk walking to achieve an Active 10",
+      "target": 3
+    }
+  },
+  {
+    "model": "my_walks.target",
+    "pk": 20,
+    "fields": {
+      "condition": "0_a10s_x_mins",
+      "text": "Keep going to get today's first Active 10",
+      "target": 3
+    }
+  },
+  {
+    "model": "my_walks.target",
+    "pk": 21,
+    "fields": {
+      "condition": "1_a10s_0_mins",
+      "text": "Great work, you've got one Active 10",
+      "target": 3
+    }
+  },
+  {
+    "model": "my_walks.target",
+    "pk": 22,
+    "fields": {
+      "condition": "1_a10s_x_mins",
+      "text": "Keep going to get your second Active 10 of the day!",
+      "target": 3
+    }
+  },
+  {
+    "model": "my_walks.target",
+    "pk": 23,
+    "fields": {
+      "condition": "2_a10s_0_mins",
+      "text": "Fantastic! Two Active 10s Today so far!",
+      "target": 3
+    }
+  },
+  {
+    "model": "my_walks.target",
+    "pk": 24,
+    "fields": {
+      "condition": "2_a10s_x_mins",
+      "text": "You're on a roll! Keep going for a third Active 10!",
+      "target": 3
+    }
+  },
+  {
+    "model": "my_walks.target",
+    "pk": 25,
+    "fields": {
+      "condition": "3_a10s_0_mins",
+      "text": "Congratulations, you hit your target!",
+      "target": 3
+    }
+  },
+  {
+    "model": "my_walks.target",
+    "pk": 26,
+    "fields": {
+      "condition": "3_a10s_x_mins",
+      "text": "You're on a roll! Great work today!",
+      "target": 3
+    }
+  },
+  {
+    "model": "my_walks.target",
+    "pk": 27,
+    "fields": {
+      "condition": "more_than_3_active_tens",
+      "text": "You're on a roll! Great work today!",
+      "target": 3
+    }
+  },
+  {
+    "model": "goals.goal",
+    "pk": 1,
+    "fields": {
+      "text": "I want to feel fitter and healthier",
+      "user": null
+    }
+  },
+  {
+    "model": "goals.goal",
+    "pk": 2,
+    "fields": {
+      "text": "I want to make regular walks a part of my lifestyle",
+      "user": null
+    }
+  },
+  {
+    "model": "goals.goal",
+    "pk": 3,
+    "fields": {
+      "text": "I want to improve my mood",
+      "user": null
+    }
+  },
+  {
+    "model": "goals.goal",
+    "pk": 4,
+    "fields": {
+      "text": "I’ve been diagnosed with a health condition",
+      "user": null
+    }
+  },
+  {
+    "model": "goals.goal",
+    "pk": 5,
+    "fields": {
+      "text": "I've been advised to get more active",
+      "user": null
+    }
+  },
+  {
+    "model": "goals.goal",
+    "pk": 6,
+    "fields": {
+      "text": "Add my own reason",
+      "user": null
+    }
+  },
+  {
+    "model": "tips.maintip",
+    "pk": 1,
+    "fields": {
+      "title": "Get social!",
+      "description": "Walking with friends or family is a great way to get support and stay motivated!",
+      "image": "get_social.png",
+      "list_order": 0
+    }
+  },
+  {
+    "model": "tips.maintip",
+    "pk": 2,
+    "fields": {
+      "title": "Set a reminder",
+      "description": "Use the app to set a reminder at a time of day that you want to get walking.",
+      "image": "set_reminder.png",
+      "list_order": 0
+    }
+  },
+  {
+    "model": "tips.maintip",
+    "pk": 3,
+    "fields": {
+      "title": "Keep track!",
+      "description": "Check back regularly to see your progress and keep you motivated to help reach your goals.",
+      "image": "keep_track.png",
+      "list_order": 0
+    }
+  },
+  {
+    "model": "tips.maintip",
+    "pk": 4,
+    "fields": {
+      "title": "Plan ahead!",
+      "description": "Think about times in the day you could walk briskly for a few minutes - It might be on the school run, when you are popping down to the shops, or just getting out and about.",
+      "image": "plan_ahead.png",
+      "list_order": 0
+    }
+  },
+  {
+    "model": "how_it_works.howitworks",
+    "pk": 1,
+    "fields": {
+      "title": "Take your phone",
+      "description": "Pop your phone in your pocket and we'll record your walking automatically.",
+      "image": "take_your_phone.png",
+      "list_order": 0
+    }
+  },
+  {
+    "model": "how_it_works.howitworks",
+    "pk": 2,
+    "fields": {
+      "title": "Get walking",
+      "description": "You don't need to have the app open for it to track your walking",
+      "image": "get_walking.png",
+      "list_order": 0
+    }
+  },
+  {
+    "model": "how_it_works.howitworks",
+    "pk": 3,
+    "fields": {
+      "title": "Check back",
+      "description": "Remember to check the app to see how much you've achieved!",
+      "image": "check_back.png",
+      "list_order": 0
+    }
+  },
+  {
+    "model": "onboarding.readytogetstarted",
+    "pk": 1,
+    "fields": {
+      "intro_new_user": "In a moment, you'll be asked to let the app turn on a few features on your phone.",
+      "intro_migrating_user": "We need you to turn on these features on your phone to get the app working. Even if you've turned them on before, we need your permission to keep using them",
+      "motion_fitness": "We use this data to look at your current walking levels and record your future walking. We'll need this for the app to work",
+      "location": "to help us support more personalised experiences for you in the future, but is optional",
+      "notifications": "We'll send you handy reminders to support you along the way",
+      "terms_link": "https://www.nhs.uk/oneyou/apps-terms-and-conditions"
+    }
+  },
+  {
+    "model": "onboarding.onboarding",
+    "pk": 1,
+    "fields": {
+      "motion_fitness": "Access to your recent and future activity so that we can accurately record your walking.",
+      "location": "This will help us understand how the app is being used and improve your experience in the future. It's optional and the app will still work without this permission.",
+      "notifications": "We'll only send notifications to keep you on-track. You can turn them off at any time, if you want to.",
+      "goals": "What is your goal? Thinking about your motivations can help you be more successful. Add your goals"
+    }
+  }
+]
