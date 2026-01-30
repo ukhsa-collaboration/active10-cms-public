@@ -16,14 +16,12 @@ class ArticlesViewSet(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
-        user_group = request.query_params.get("user_group", "users")
-        if user_group not in ["all_users", "nhs_users", "users"]:
+        user_group = request.query_params.get("user_group", "all_users")
+        if user_group not in ["all_users", "nhs_users", "users", "all"]:
             return Response({"error": "Invalid user group"}, status=400)
 
-        if user_group != "all_users":
-            queryset = queryset.filter(user_group__in=[user_group, "all_users"])
-        else:
-            queryset = queryset.filter(user_group=user_group)
+        if user_group != "all":
+          queryset = queryset.filter(user_group=user_group)
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
