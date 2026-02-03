@@ -28,7 +28,11 @@ class ArticleSerializer(serializers.ModelSerializer):
         return {"ios": ios, "android": android}
 
     def get_view_ids(self, obj):
-        return obj.views.through.objects.filter(article=obj.id).order_by("order").values_list("view_id", flat=True)
+        return (
+            obj.views.through.objects.filter(article=obj.id)
+            .order_by("order")
+            .values_list("view_id", flat=True)
+        )
 
     def get_related_article_ids(self, obj):
         return (
@@ -50,11 +54,15 @@ class ArticleSerializer(serializers.ModelSerializer):
         return html_text_to_json(obj.content)
 
     def get_content_view_ids(self, obj):
-        return ContentView.objects.filter(article__id=obj.id).order_by("order").values_list("view_id", flat=True)
+        return (
+            ContentView.objects.filter(article__id=obj.id)
+            .order_by("order")
+            .values_list("view_id", flat=True)
+        )
 
     class Meta:
         model = Article
-        fields = [
+        fields = [  # noqa: RUF012
             "id",
             "slug",
             "published",
@@ -87,4 +95,4 @@ class ArticleSerializer(serializers.ModelSerializer):
 class ArticleCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = ArticleCategory
-        fields = ["id", "name", "position"]
+        fields = ["id", "name", "position"]  # noqa: RUF012
