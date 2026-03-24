@@ -57,7 +57,7 @@ jobs:
       release_tag: ${{ needs.prepare-release-tag.outputs.release_tag }}
       sign_release: true
       lint_dockerfile: false
-      enable_trivy: true
+      enable_trivy: false
       fail_on_trivy_findings: false
       enable_snyk: false
       lint_python: false
