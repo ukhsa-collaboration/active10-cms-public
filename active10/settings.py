@@ -401,6 +401,7 @@ BATON = {
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
+AWS_S3_CUSTOM_DOMAIN = None
 if getenv("AWS_STORAGE_BUCKET_NAME", None) is not None:
     REDIRECT_STATIC_TO_CDN = True
     AWS_ACCESS_KEY_ID = getenv("AWS_ACCESS_KEY_ID", "")
@@ -476,3 +477,10 @@ CSP_SCRIPT_SRC = (
 )
 CSP_IMG_SRC = ("'self'", "*.s3.amazonaws.com", AWS_S3_CUSTOM_DOMAIN, "https://www.gravatar.com")
 CSP_FONT_SRC = ("'self'", "*.s3.amazonaws.com", AWS_S3_CUSTOM_DOMAIN, "https://www.gravatar.com")
+if AWS_S3_CUSTOM_DOMAIN:
+    CSP_DEFAULT_SRC.append(AWS_S3_CUSTOM_DOMAIN)
+    CSP_STYLE_SRC.append(AWS_S3_CUSTOM_DOMAIN)
+    CSP_SCRIPT_SRC.append(AWS_S3_CUSTOM_DOMAIN)
+    CSP_IMG_SRC.append(AWS_S3_CUSTOM_DOMAIN)
+    CSP_FONT_SRC.append(AWS_S3_CUSTOM_DOMAIN)
+
