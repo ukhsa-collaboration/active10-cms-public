@@ -54,9 +54,8 @@ class SecurityHeadersMiddleware(MiddlewareMixin):
     def process_response(self, request, response):
         response["Permissions-Policy"] = "geolocation=(), microphone=(), camera=()"
 
-        # these headers do not necessarily apply to this app
-        # response['Cross-Origin-Embedder-Policy'] = 'require-corp'
-        # response['Cross-Origin-Resource-Policy'] = 'same-origin'
+        response['Cross-Origin-Embedder-Policy'] = 'require-corp'
+        response['Cross-Origin-Resource-Policy'] = 'same-origin'
         return response
 
 
