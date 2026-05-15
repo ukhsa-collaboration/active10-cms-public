@@ -443,6 +443,7 @@ TWO_FACTOR_PATCH_ADMIN = True
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost",
+    "https://active10.dev.phedigital.co.uk",
     "https://active10.stg.phedigital.co.uk",
     "https://active10.prod.phedigital.co.uk/",
 ]
