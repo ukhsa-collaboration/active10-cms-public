@@ -21,7 +21,7 @@ class ArticlesViewSet(viewsets.ModelViewSet):
             return Response({"error": "Invalid user group"}, status=400)
 
         if user_group != "all":
-          queryset = queryset.filter(user_group=user_group)
+            queryset = queryset.filter(user_group=user_group)
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 

@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 from os import getenv, path
 from pathlib import Path
 
+from utils.db_auth import db_password
+
 # Build paths inside the project like this: path.join(BASE_DIR, ...)
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -131,9 +133,13 @@ DATABASES = {
         "ENGINE": f"django.db.backends.{getenv('DATABASE_ENGINE', 'postgresql')}",
         "NAME": getenv("DB_NAME", "active10_development"),
         "USER": getenv("DB_USER", "postgres"),
-        "PASSWORD": getenv("DB_PASSWORD", ""),
+        "PASSWORD": db_password(),
         "HOST": getenv("DB_HOST", "localhost"),
         "PORT": getenv("DB_PORT", "5432"),
+        "OPTIONS": {
+            "sslmode": "verify-full",
+            "sslrootcert": "/etc/ssl/certs/aws-rds-global-bundle.pem",
+        },
     }
 }
 
@@ -443,6 +449,7 @@ TWO_FACTOR_PATCH_ADMIN = True
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost",
+    "https://active10.dev.phedigital.co.uk",
     "https://active10.stg.phedigital.co.uk",
     "https://active10.prod.phedigital.co.uk/",
 ]
