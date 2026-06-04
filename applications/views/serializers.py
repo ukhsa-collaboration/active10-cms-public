@@ -43,25 +43,17 @@ class ViewSerializer(serializers.ModelSerializer):
         lookup_field = "slug"
 
     def get_children_ids(self, obj):
-        return (
-            obj.views.through.objects.filter(parent=obj.id)
-            .order_by("order")
-            .values_list("child", flat=True)
-        )
+        return [r.child_id for r in obj.parents.all()]
 
     def get_article_ids(self, obj):
-        return (
-            obj.articles.through.objects.filter(view=obj.id)
-            .order_by("order")
-            .values_list("article", flat=True)
-        )
+        return [av.article_id for av in obj.articleview_set.all()]
 
     def get_media(self, obj):
         return ViewMediaSerializer(
-            ViewMedia.objects.filter(view=obj.id), many=True, context=self.context
+            obj.view_media.all(),many=True,context=self.context
         ).data
 
     def get_properties(self, obj):
         return ViewPropertySerializer(
-            ViewProperty.objects.filter(view=obj.id), many=True, context=self.context
+            obj.view_property.all(),many=True,context=self.context
         ).data

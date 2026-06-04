@@ -46,7 +46,7 @@ class MyWalksSerializer(serializers.Serializer):
         return MyWalkDynamicTextSerializer(MyWalk.objects.all(), many=True).data
 
     def get_todays_walks_dynamic_text(self, obj):
-        return TodayWalkDynamicTextSerializer(TodayWalk.objects.all(), many=True).data
+        return TodayWalkDynamicTextSerializer(TodayWalk.objects.prefetch_related('target_set').all(), many=True).data
 
     def to_representation(self, instance):
         original_representation = super(MyWalksSerializer, self).to_representation(instance)  # noqa: UP008

@@ -10,14 +10,6 @@ from .serializers import DiscoverSerializer, TipSerializer
 @method_decorator(name="get", decorator=discover_doc())
 class DiscoverView(GenericAPIView):
     def get(self, request, *args, **kwargs):
-        discover_serializer = DiscoverSerializer(
-            Discover.objects.filter(published=True),
-            many=True,
-            context=self.get_serializer_context(),
-        )
-        tip_serializer = TipSerializer(
-            Carousel.objects.filter(published=True),
-            many=True,
-            context=self.get_serializer_context(),
-        )
+        discover_serializer = DiscoverSerializer(Discover.objects.filter(published=True).select_related('splash_screen'), many=True, context=self.get_serializer_context())
+        tip_serializer = TipSerializer(Carousel.objects.filter(published=True).select_related('cta'), many=True, context=self.get_serializer_context())
         return Response(dict(discover=discover_serializer.data, tips=tip_serializer.data))

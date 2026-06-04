@@ -5,7 +5,6 @@ from applications.notifications.models import (
     LocalNotification,
     Onboarding,
     Reminder,
-    UserInfo,
 )
 
 
@@ -26,7 +25,7 @@ class LapsedSerializer(serializers.ModelSerializer):
 
     def get_userinfo(self, obj):
         serializer = UserInfoSerializer(
-            UserInfo.objects.filter(lapsed=obj.id), many=True, context=self.context
+            obj.userinfo.all(), many=True, context=self.context
         )
 
         # Flaten the list of dictionaries
@@ -46,7 +45,7 @@ class OnboardingSerializer(serializers.ModelSerializer):
 
     def get_userinfo(self, obj):
         serializer = UserInfoSerializer(
-            UserInfo.objects.filter(onboarding=obj.id), many=True, context=self.context
+            obj.userinfo.all(), many=True, context=self.contextt
         )
 
         # Flaten the list of dictionaries
@@ -75,10 +74,10 @@ class NotificationsSerializer(serializers.Serializer):
 
     def to_representation(self, instance):
         serialized_onboarding = OnboardingSerializer(
-            Onboarding.objects.all(), many=True, context=self.context
+            Onboarding.objects.prefetch_related('userinfo').all(), many=True, context=self.context
         )
 
-        serialized_lapsed = LapsedSerializer(Lapsed.objects.all(), many=True, context=self.context)
+        serialized_lapsed = LapsedSerializer(Lapsed.objects.prefetch_related('userinfo').all(), many=True, context=self.context)
 
         serialized_reminder = ReminderSerializer(
             Reminder.objects.all(),
