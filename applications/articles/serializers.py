@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Article, ArticleCategory, ContentView
+from .models import Article, ArticleCategory
 from .utils import html_text_to_json
 
 
@@ -28,14 +28,10 @@ class ArticleSerializer(serializers.ModelSerializer):
         return {"ios": ios, "android": android}
 
     def get_view_ids(self, obj):
-        return obj.views.through.objects.filter(article=obj.id).order_by("order").values_list("view_id", flat=True)
+        return [av.view_id for av in obj.articleview_set.all()]
 
     def get_related_article_ids(self, obj):
-        return (
-            obj.related.through.objects.filter(article=obj.id)
-            .order_by("order")
-            .values_list("related_article", flat=True)
-        )
+        return [ar.related_article_id for ar in obj.parent_article.all()]
 
     def get_category_name(self, obj):
         return obj.category.name
@@ -50,7 +46,7 @@ class ArticleSerializer(serializers.ModelSerializer):
         return html_text_to_json(obj.content)
 
     def get_content_view_ids(self, obj):
-        return ContentView.objects.filter(article__id=obj.id).order_by("order").values_list("view_id", flat=True)
+        return [cv.view_id for cv in obj.contentview_set.all()]
 
     class Meta:
         model = Article

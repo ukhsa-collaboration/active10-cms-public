@@ -1,15 +1,22 @@
+from django.db.models import Prefetch
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from rest_framework import viewsets
 from rest_framework.response import Response
 
-from .models import Article, ArticleCategory
+from .models import Article, ArticleCategory, ArticleView, ArticleRelated, ContentView
 from .serializers import ArticleCategorySerializer, ArticleSerializer
 
 
 @method_decorator(cache_page(60), name="dispatch")
 class ArticlesViewSet(viewsets.ModelViewSet):
-    queryset = Article.objects.filter(published=True)
+    queryset = Article.objects.filter(published=True).select_related(
+        'category', 'image'
+    ).prefetch_related(
+        Prefetch('articleview_set', queryset=ArticleView.objects.order_by('order')),
+        Prefetch('parent_article', queryset=ArticleRelated.objects.order_by('order')),
+        Prefetch('contentview_set', queryset=ContentView.objects.order_by('order')),
+    )
     serializer_class = ArticleSerializer
     http_method_names = ["get", "options"]  # noqa: RUF012
     lookup_field = "id"
