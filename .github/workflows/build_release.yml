@@ -47,7 +47,7 @@ jobs:
       id-token: write
       actions: read
       pull-requests: write
-    uses: ukhsa-collaboration/devops-github-reusable-workflows/.github/workflows/container-image-build-python-aws-ecs.yml@0142fab71a3dd1c72ed470621cafb2c9db484f35
+    uses: ukhsa-collaboration/devops-application-cicd/.github/workflows/container-image-build-python-aws-ecs.yml@2985f23123642ef883e9a9c28dd061fc93a3ce81 # v0.0.5
     with:
       app_name: ${{ vars.APP_NAME }}
       service_identifier: ${{ vars.ECR_NAMESPACE }}
@@ -55,12 +55,11 @@ jobs:
       run_unit_tests: ${{ vars.RUN_UNIT_TESTS == 'true' }}
       push_image: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
       release_tag: ${{ needs.prepare-release-tag.outputs.release_tag }}
-      sign_release: true
       lint_dockerfile: false
-      enable_trivy: true
-      fail_on_trivy_findings: false
-      enable_snyk: false
       lint_python: false
+      registry_account_id: "636728427214"
+      aws_registry_role_name: "github-active-10-cms-ecr"
+      sign_release: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
       deploy_environments: >-
         [
           { "name": "dev", "base_url": "https://active10.dev.phedigital.co.uk", "smoke_test_url": "https://active10.dev.phedigital.co.uk/healthcheck" },
