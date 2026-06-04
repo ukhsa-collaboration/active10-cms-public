@@ -45,7 +45,7 @@ class OnboardingSerializer(serializers.ModelSerializer):
 
     def get_userinfo(self, obj):
         serializer = UserInfoSerializer(
-            obj.userinfo.all(), many=True, context=self.contextt
+            obj.userinfo.all(), many=True, context=self.context
         )
 
         # Flaten the list of dictionaries
