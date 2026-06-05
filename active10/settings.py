@@ -477,10 +477,4 @@ CSP_SCRIPT_SRC = (
 )
 CSP_IMG_SRC = ("'self'", "*.s3.amazonaws.com", AWS_S3_CUSTOM_DOMAIN, "https://www.gravatar.com")
 CSP_FONT_SRC = ("'self'", "*.s3.amazonaws.com", AWS_S3_CUSTOM_DOMAIN, "https://www.gravatar.com")
-if AWS_S3_CUSTOM_DOMAIN:
-    CSP_DEFAULT_SRC.append(AWS_S3_CUSTOM_DOMAIN)
-    CSP_STYLE_SRC.append(AWS_S3_CUSTOM_DOMAIN)
-    CSP_SCRIPT_SRC.append(AWS_S3_CUSTOM_DOMAIN)
-    CSP_IMG_SRC.append(AWS_S3_CUSTOM_DOMAIN)
-    CSP_FONT_SRC.append(AWS_S3_CUSTOM_DOMAIN)
 
