@@ -54,8 +54,8 @@ class SecurityHeadersMiddleware(MiddlewareMixin):
     def process_response(self, request, response):
         response["Permissions-Policy"] = "geolocation=(), microphone=(), camera=()"
 
-        response['Cross-Origin-Embedder-Policy'] = 'require-corp'
-        response['Cross-Origin-Resource-Policy'] = 'cross-origin'
+#         response['Cross-Origin-Embedder-Policy'] = 'require-corp'
+#         response['Cross-Origin-Resource-Policy'] = 'cross-origin'
         return response
 
 
