@@ -69,7 +69,7 @@ class GlobalRulesSerializer(serializers.Serializer):
         )
 
         serialized_app_version = AppVersionSerializer(
-            AppVersion.objects.all(), many=True, context=self.context
+            AppVersion.objects.select_related('app').all(), many=True, context=self.context
         )
 
         # Flaten the list of dictionaries

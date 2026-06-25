@@ -45,21 +45,19 @@ class WalkingPlanSerializer(serializers.ModelSerializer):
 
     def get_category_details(self, obj):
         result = {
-            "sex": obj.sex.values_list("label", flat=True),
-            "age": obj.age.values_list("label", flat=True),
-            "activity_level": obj.activity_level.values_list("label", flat=True),
-            "motivation": obj.motivation.values_list("text", flat=True),
+            "sex": [s.label for s in obj.sex.all()],
+            "age": [a.label for a in obj.age.all()],
+            "activity_level": [al.label for al in obj.activity_level.all()],
+            "motivation": [m.text for m in obj.motivation.all()],
         }
 
         return result
 
     def get_inferior_plan_ids(self, obj):
-        return obj.inferior_plans.values_list("id", flat=True)
+        return [p.id for p in obj.inferior_plans.all()]
 
     def get_superior_plan_ids(self, obj):
-        return obj.superior_plans.values_list("id", flat=True)
+        return [p.id for p in obj.superior_plans.all()]
 
     def get_plan_itinerary_items(self, obj):
-        return PlanItineraryItemSerializer(
-            obj.plan_itinerary_items.order_by("ordering"), many=True
-        ).data
+        return PlanItineraryItemSerializer(obj.plan_itinerary_items.all(), many=True).data
