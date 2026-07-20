@@ -1,6 +1,8 @@
 import reversion
 from django.db import models
 
+from utils.activity import ActivityTypeModel
+
 
 @reversion.register()
 class UserInfo(models.Model):
@@ -16,7 +18,7 @@ class UserInfo(models.Model):
 
 
 @reversion.register()
-class Onboarding(models.Model):
+class Onboarding(ActivityTypeModel):
     day = models.IntegerField(default=0)
     copy = models.TextField()
     userinfo = models.ManyToManyField(UserInfo, blank=True)
@@ -30,7 +32,7 @@ class Onboarding(models.Model):
 
 
 @reversion.register()
-class Lapsed(models.Model):
+class Lapsed(ActivityTypeModel):
     ident = models.CharField(max_length=200)
     copy = models.TextField()
     userinfo = models.ManyToManyField(UserInfo, blank=True)
@@ -45,7 +47,7 @@ class Lapsed(models.Model):
 
 
 @reversion.register()
-class Reminder(models.Model):
+class Reminder(ActivityTypeModel):
     copy = models.TextField()
 
     def __str__(self):

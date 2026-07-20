@@ -12,7 +12,7 @@ class NonEditableField:
 
 class TargetInlineAdmin(admin.StackedInline):
     model = Target
-    fields = ("condition", "text")
+    fields = ("condition", "text", "wheelchair_text")
     can_delete = True
     extra = 0
 
@@ -22,7 +22,7 @@ class TodayWalkAdmin(admin.ModelAdmin):
 
 
 class MyWalkAdmin(NonEditableField, admin.ModelAdmin):
-    fields = ("condition", "text")
+    fields = ("condition", "text", "wheelchair_text")
 
 
 admin.site.register(TodayWalk, TodayWalkAdmin)

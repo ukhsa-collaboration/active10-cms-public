@@ -1,9 +1,13 @@
 import reversion
+
 from django.db import models
+
+from utils.activity import ActivityTypeModel
 
 
 @reversion.register()
-class ReadyToGetStarted(models.Model):
+class ReadyToGetStarted(ActivityTypeModel):
+
     intro_new_user = models.TextField()
     intro_migrating_user = models.TextField()
     motion_fitness = models.TextField()
@@ -20,7 +24,7 @@ class ReadyToGetStarted(models.Model):
 
 
 @reversion.register()
-class Onboarding(models.Model):
+class Onboarding(ActivityTypeModel):
     """
     Model used for storing text for some of the on boarding views the users see when starting the app.
     """  # noqa: E501

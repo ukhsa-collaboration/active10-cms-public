@@ -2,26 +2,18 @@
 
 from django.db import migrations, models
 
-from applications.goals.models import Goal
-
 
 def add_starting_order(apps, schema_editor):
-    order_idx = 0
-    for obj in Goal.objects.all():
-        order_idx += 1
+    # Use the historical model (not the concrete import) so this data migration
+    # keeps working as the Goal model gains fields in later migrations.
+    Goal = apps.get_model("goals", "Goal")
+    for order_idx, obj in enumerate(Goal.objects.all(), start=1):
         obj.order = order_idx
-        obj.save()
-
-    orderfield = Goal._meta.ordering[0]
-    if orderfield[0] == "-":
-        orderfield = orderfield[1:]
-
-    for order_idx, obj in enumerate(Goal.objects.iterator(), start=1):
-        setattr(obj, orderfield, order_idx)
-        obj.save()
+        obj.save(update_fields=["order"])
 
 
 class Migration(migrations.Migration):
+
     dependencies = [
         ("goals", "0003_auto_20200413_1339"),
     ]
@@ -34,13 +26,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterModelOptions(
             name="goal",
-            options={
-                "ordering": ["order"],
-                "verbose_name": "User goal",
-                "verbose_name_plural": "User goals",
-            },
+            options={"ordering": ["order"], "verbose_name": "User goal", "verbose_name_plural": "User goals"},
         ),
-        migrations.RunPython(
-            add_starting_order, reverse_code=migrations.RunPython.noop
-        ),
+        migrations.RunPython(add_starting_order, reverse_code=migrations.RunPython.noop),
     ]

@@ -11,4 +11,5 @@ class GoalSerializers(serializers.ModelSerializer):
             "id",
             "text",
             "user",
+            "activity_type",
         )

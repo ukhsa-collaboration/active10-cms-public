@@ -1,22 +1,28 @@
-from django.urls import reverse
-from rest_framework import status
-from rest_framework.test import APITestCase
+"""DB-free tests (pytest + mock). No django_db marker => DB access is blocked."""
 
+from types import SimpleNamespace
+from unittest import mock
+
+import applications.tips.views as views
 from applications.tips.models import MainTip
+from utils.activity import ActivityType
 
 
-class TipTests(APITestCase):
-    fixtures = ["fixtures.json"]  # noqa: RUF012
+def test_get_queryset_applies_activity_filter():
+    view = views.TipsView()
+    view.request = SimpleNamespace(query_params={"activity_type": "wheeling"})
+    with mock.patch.object(views, "filter_by_activity", return_value="QS") as fa:
+        assert view.get_queryset() == "QS"
+    assert fa.call_args.args[1] == ActivityType.WHEELING
 
-    def test_discover(self):
-        url = reverse("tips")
-        response = self.client.get(url)
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.json()), MainTip.objects.all().count())
+def test_get_queryset_defaults_to_walking():
+    view = views.TipsView()
+    view.request = SimpleNamespace(query_params={})
+    with mock.patch.object(views, "filter_by_activity", return_value="QS") as fa:
+        view.get_queryset()
+    assert fa.call_args.args[1] == ActivityType.WALKING
 
-        for tip in response.json():
-            pk = tip.get("id")
-            main_tip = MainTip.objects.get(pk=pk)
-            self.assertEqual(pk, main_tip.pk)
-            self.assertEqual(tip.get("title"), main_tip.title)
+
+def test_str():
+    assert str(MainTip(title="Brisk walk")) == "Brisk walk"

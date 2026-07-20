@@ -6,4 +6,4 @@ from applications.faq.models import Faq
 class FaqSerializer(serializers.ModelSerializer):
     class Meta:
         model = Faq
-        fields = ["id", "title", "text"]  # noqa: RUF012
+        fields = ["id", "title", "text", "activity_type"]

@@ -6,6 +6,7 @@ from applications.notifications.models import (
     Onboarding,
     Reminder,
 )
+from utils.activity import ActivityType, filter_by_activity, resolve_activity
 
 
 class UserInfoSerializer(serializers.Serializer):
@@ -73,14 +74,23 @@ class NotificationsSerializer(serializers.Serializer):
         return super(NotificationsSerializer, self).__init__(instance, data, **kwargs)  # noqa: PLE0101, UP008
 
     def to_representation(self, instance):
+        request = self.context.get("request")
+        activity = resolve_activity(request) if request is not None else ActivityType.WALKING
+
         serialized_onboarding = OnboardingSerializer(
-            Onboarding.objects.prefetch_related('userinfo').all(), many=True, context=self.context
+            filter_by_activity(Onboarding.objects.prefetch_related("userinfo"), activity),
+            many=True,
+            context=self.context,
         )
 
-        serialized_lapsed = LapsedSerializer(Lapsed.objects.prefetch_related('userinfo').all(), many=True, context=self.context)
+        serialized_lapsed = LapsedSerializer(
+            filter_by_activity(Lapsed.objects.prefetch_related("userinfo"), activity),
+            many=True,
+            context=self.context,
+        )
 
         serialized_reminder = ReminderSerializer(
-            Reminder.objects.all(),
+            filter_by_activity(Reminder.objects.all(), activity),
             many=True,
             context=self.context,
         )

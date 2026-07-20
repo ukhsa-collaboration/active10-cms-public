@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from applications.onboarding.models import *  # noqa: F403
+from utils.activity import ActivityType, pick_by_activity
 
 
 class ReadyToGetStartedSerializer(serializers.ModelSerializer):
@@ -39,4 +40,6 @@ class OnboardingSerializer(serializers.ModelSerializer):
         )
 
     def get_ready_to_get_started(self, obj):
-        return ReadyToGetStartedSerializer(ReadyToGetStarted.objects.first()).data  # noqa: F405
+        activity = self.context.get("activity", ActivityType.WALKING)
+        ready = pick_by_activity(ReadyToGetStarted.objects.all(), activity)
+        return ReadyToGetStartedSerializer(ready).data

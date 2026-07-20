@@ -5,7 +5,7 @@ from django.db import models
 from django.utils.html import format_html, mark_safe
 
 from applications.views.models import View
-
+from utils.activity import ActivityTypeModel
 from .utils import SubjectOptimizedImageField, path_and_rename_image
 
 
@@ -44,7 +44,7 @@ class ArticleCategory(models.Model):
         verbose_name_plural = "Article Categories"
 
 
-class Article(models.Model):
+class Article(ActivityTypeModel):
     class Platform(models.TextChoices):
         ALL = "all"
         IOS = "ios"

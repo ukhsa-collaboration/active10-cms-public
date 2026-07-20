@@ -3,6 +3,8 @@ from colorful.fields import RGBColorField
 from django.core.validators import MaxLengthValidator
 from django.db import models
 
+from utils.activity import ActivityTypeModel
+
 
 @reversion.register()
 class SplashScreen(models.Model):
@@ -31,7 +33,7 @@ class SplashScreen(models.Model):
 
 
 @reversion.register()
-class Discover(models.Model):
+class Discover(ActivityTypeModel):
     IMAGE = "image"
     IMAGE_URL = "image_url"
     TEXT = "text"
@@ -100,3 +102,6 @@ class Carousel(models.Model):
 
     def __str__(self):
         return self.title
+
+
+
