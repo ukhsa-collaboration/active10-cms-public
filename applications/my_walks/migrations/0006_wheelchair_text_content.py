@@ -18,7 +18,7 @@ MY_WALK_WHEELCHAIR_TEXT = {
         "Struggling to fit in brisk wheeling? Check our tips for some helpful guidance"
     ),
     "days_target_no_hit": (
-        "You didn"t quite hit your target but you"ve still clocked up %d mins "
+        "You didn't quite hit your target but you've still clocked up %d mins "
         "of brisk wheeling!"
     ),
 }
