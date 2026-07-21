@@ -5,6 +5,7 @@ from rest_framework.generics import ListCreateAPIView
 from .docs import goals_doc
 from .models import Goal
 from .serializers import GoalSerializers
+from utils.activity import filter_by_activity, resolve_activity
 
 
 @method_decorator(name="get", decorator=goals_doc())
@@ -19,4 +20,4 @@ class GoalsView(ListCreateAPIView):
             )
         else:
             queryset = Goal.objects.filter(user__isnull=True).order_by("order")
-        return queryset
+        return filter_by_activity(queryset, resolve_activity(self.request))

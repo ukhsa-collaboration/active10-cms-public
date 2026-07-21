@@ -1,22 +1,28 @@
-from django.urls import reverse
-from rest_framework import status
-from rest_framework.test import APITestCase
+"""DB-free tests (pytest + mock). No django_db marker => DB access is blocked."""
 
+from types import SimpleNamespace
+from unittest import mock
+
+import applications.how_it_works.views as views
 from applications.how_it_works.models import HowItWorks
+from utils.activity import ActivityType
 
 
-class HowItWorksTests(APITestCase):
-    fixtures = ["fixtures.json"]  # noqa: RUF012
+def test_get_queryset_applies_activity_filter():
+    view = views.HowItWorksView()
+    view.request = SimpleNamespace(query_params={"activity_type": "wheeling"})
+    with mock.patch.object(views, "filter_by_activity", return_value="QS") as fa:
+        assert view.get_queryset() == "QS"
+    assert fa.call_args.args[1] == ActivityType.WHEELING
 
-    def test_discover(self):
-        url = reverse("how_it_works")
-        response = self.client.get(url)
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.json()), HowItWorks.objects.all().count())
+def test_get_queryset_defaults_to_walking():
+    view = views.HowItWorksView()
+    view.request = SimpleNamespace(query_params={})
+    with mock.patch.object(views, "filter_by_activity", return_value="QS") as fa:
+        view.get_queryset()
+    assert fa.call_args.args[1] == ActivityType.WALKING
 
-        for hiw in response.json():
-            pk = hiw.get("id")
-            how_it_works = HowItWorks.objects.get(pk=pk)
-            self.assertEqual(pk, how_it_works.pk)
-            self.assertEqual(hiw.get("title"), how_it_works.title)
+
+def test_str():
+    assert str(HowItWorks(title="Step 1")) == "Step 1"

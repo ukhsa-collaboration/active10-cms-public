@@ -2,9 +2,11 @@ import reversion
 from django.core.validators import MaxLengthValidator
 from django.db import models
 
+from utils.activity import ActivityTypeModel
+
 
 @reversion.register()
-class MainTip(models.Model):
+class MainTip(ActivityTypeModel):
     published = models.BooleanField(default=True)
     title = models.CharField(max_length=20, help_text="Max: 20 symbols")
     description = models.TextField(

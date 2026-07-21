@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.forms import ModelForm, ValidationError
 
 from applications.discover.models import Carousel, Cta, Discover, SplashScreen
+from utils.admin import CloneAdminMixin
 
 
 class DiscoverAdminForm(ModelForm):
@@ -32,11 +33,22 @@ class DiscoverAdminForm(ModelForm):
         return name_image
 
 
-class DiscoverAdmin(admin.ModelAdmin):
+class DiscoverAdmin(CloneAdminMixin, admin.ModelAdmin):
+    clone_name_field = 'name_text'
     form = DiscoverAdminForm
     autocomplete_fields = ["splash_screen"]  # noqa: RUF012
     search_fields = ["name_text"]  # noqa: RUF012
-    list_display = ["name_text", "list_order", "published"]  # noqa: RUF012
+    list_display = ["name_text", "list_order", "published", "activity_type"]
+    list_filter = ["activity_type", "published"]
+
+    def before_save_clone(self, original, clone):
+        # splash_screen is a OneToOne, so the copy needs its own SplashScreen.
+        if original.splash_screen_id:
+            splash_screen = original.splash_screen
+            splash_screen.pk = None
+            splash_screen.id = None
+            splash_screen.save()
+            clone.splash_screen = splash_screen
 
 
 class CarouselAdmin(admin.ModelAdmin):

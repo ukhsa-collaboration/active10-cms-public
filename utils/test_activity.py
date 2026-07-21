@@ -1,0 +1,106 @@
+"""Unit tests for the activity-type tagging helpers.
+
+These are pure-logic tests: no database, no HTTP. They exercise the branching
+in ``utils.activity`` (param resolution, the ``both`` cascade, the single-record
+fallback) using fakes, so the suite stays fast and DB-free.
+"""
+
+from types import SimpleNamespace
+from unittest.mock import MagicMock
+
+from utils.activity import (
+    ActivityType,
+    ActivityTypeModel,
+    filter_by_activity,
+    pick_by_activity,
+    resolve_activity,
+)
+
+
+def _request(params):
+    """A stand-in for a DRF request — only ``query_params`` is used."""
+    return SimpleNamespace(query_params=params)
+
+
+class TestResolveActivity:
+    def test_missing_param_defaults_to_walking(self):
+        assert resolve_activity(_request({})) == ActivityType.WALKING
+
+    def test_walking_param(self):
+        assert resolve_activity(_request({"activity_type": "walking"})) == ActivityType.WALKING
+
+    def test_wheeling_param(self):
+        assert resolve_activity(_request({"activity_type": "wheeling"})) == ActivityType.WHEELING
+
+    def test_invalid_param_falls_back_to_walking(self):
+        assert resolve_activity(_request({"activity_type": "nonsense"})) == ActivityType.WALKING
+
+    def test_both_param_is_requestable(self):
+        # 'both' asks for the full catalogue (walking + wheeling + both).
+        assert resolve_activity(_request({"activity_type": "both"})) == ActivityType.BOTH
+
+
+class TestFilterByActivity:
+    def test_filters_on_requested_value_plus_both(self):
+        queryset = MagicMock(name="queryset")
+        result = filter_by_activity(queryset, ActivityType.WHEELING)
+
+        queryset.filter.assert_called_once_with(activity_type__in=[ActivityType.WHEELING, ActivityType.BOTH])
+        assert result is queryset.filter.return_value
+
+    def test_walking_cascade(self):
+        queryset = MagicMock(name="queryset")
+        filter_by_activity(queryset, ActivityType.WALKING)
+        queryset.filter.assert_called_once_with(activity_type__in=[ActivityType.WALKING, ActivityType.BOTH])
+
+    def test_both_returns_full_queryset_unfiltered(self):
+        queryset = MagicMock(name="queryset")
+        result = filter_by_activity(queryset, ActivityType.BOTH)
+
+        queryset.filter.assert_not_called()
+        assert result is queryset
+
+
+class _FakeQuerySet:
+    """Minimal queryset double keyed by ``activity_type`` value."""
+
+    def __init__(self, by_activity):
+        self._by_activity = by_activity
+
+    def filter(self, **kwargs):
+        match = self._by_activity.get(kwargs.get("activity_type"))
+        return _FakeQuerySet({kwargs.get("activity_type"): match} if match is not None else {})
+
+    def first(self):
+        for obj in self._by_activity.values():
+            if obj is not None:
+                return obj
+        return None
+
+
+class TestPickByActivity:
+    def test_exact_match_wins(self):
+        qs = _FakeQuerySet({"walking": "WALK", "wheeling": "WHEEL", "both": "BOTH"})
+        assert pick_by_activity(qs, ActivityType.WHEELING) == "WHEEL"
+
+    def test_falls_back_to_both_when_no_exact_match(self):
+        qs = _FakeQuerySet({"both": "BOTH"})
+        assert pick_by_activity(qs, ActivityType.WHEELING) == "BOTH"
+
+    def test_falls_back_to_walking_when_no_wheeling_authored(self):
+        # The common case: only walking copy exists, wheeling app asks → don't 404/empty.
+        qs = _FakeQuerySet({"walking": "WALK"})
+        assert pick_by_activity(qs, ActivityType.WHEELING) == "WALK"
+
+    def test_returns_none_when_empty(self):
+        assert pick_by_activity(_FakeQuerySet({}), ActivityType.WHEELING) is None
+
+
+class TestActivityTypeModel:
+    def test_default_is_walking(self):
+        field = ActivityTypeModel._meta.get_field("activity_type")
+        assert field.default == ActivityType.WALKING
+
+    def test_choices_are_walking_wheeling_both(self):
+        field = ActivityTypeModel._meta.get_field("activity_type")
+        assert {value for value, _label in field.choices} == {"walking", "wheeling", "both"}

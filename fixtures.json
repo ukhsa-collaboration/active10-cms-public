@@ -49,8 +49,7 @@
       "title": "HEALTH UNLOCKED",
       "text": "HealthUnlocked is a social network for health. Join the Active 10 community and meet thousands of people doing the programme along with you.\r\nThis link to third parties sites and resources are provided for your information only. Such links should not be",
       "button": "Visit Health Unlocked",
-      "link": "https://healthunlocked.com",
-      "list_order": 0
+      "link": "https://healthunlocked.com"
     }
   },
   {
@@ -120,7 +119,7 @@
     }
   },
   {
-    "model": "discover.tip",
+    "model": "discover.carousel",
     "pk": 1,
     "fields": {
       "title": "START SMALL",
@@ -131,7 +130,7 @@
     }
   },
   {
-    "model": "discover.tip",
+    "model": "discover.carousel",
     "pk": 2,
     "fields": {
       "title": "WALK YOUR WAY TO IMPROVED HEALTH",
@@ -142,7 +141,7 @@
     }
   },
   {
-    "model": "discover.tip",
+    "model": "discover.carousel",
     "pk": 3,
     "fields": {
       "title": "MENTAL HEALTH AND WELLBEING",
@@ -153,7 +152,7 @@
     }
   },
   {
-    "model": "discover.tip",
+    "model": "discover.carousel",
     "pk": 4,
     "fields": {
       "title": "BE ACTIVE WITH A DISABILITY",
@@ -164,7 +163,7 @@
     }
   },
   {
-    "model": "discover.tip",
+    "model": "discover.carousel",
     "pk": 5,
     "fields": {
       "title": "READY FOR THE NEXT STEP?",
@@ -175,7 +174,7 @@
     }
   },
   {
-    "model": "discover.tip",
+    "model": "discover.carousel",
     "pk": 6,
     "fields": {
       "title": "HOW MUCH PHYSICAL ACTIVITY SHOULD YOU DO?",
@@ -260,7 +259,8 @@
     "pk": 3,
     "fields": {
       "condition": "days_target_no_hit",
-      "text": "You didn't quite hit your target but you've still clocked up %d mins brisk walking!"
+      "text": "You didn't quite hit your target but you've still clocked up %d mins brisk walking!",
+      "wheelchair_text": "You didn't quite hit your target but you've still clocked up %d mins of brisk wheeling!"
     }
   },
   {
@@ -268,7 +268,8 @@
     "pk": 4,
     "fields": {
       "condition": "days_no_brisk_walking",
-      "text": "Struggling to fit in brisk walking? Check our tips for some helpful guidance"
+      "text": "Struggling to fit in brisk walking? Check our tips for some helpful guidance",
+      "wheelchair_text": "Struggling to fit in brisk wheeling? Check our tips for some helpful guidance"
     }
   },
   {
@@ -364,7 +365,8 @@
     "pk": 16,
     "fields": {
       "condition": "weeks_days_1",
-      "text": "You hit your target on 1 day this week. Try and increase more of your walking to brisk to stay on track."
+      "text": "You hit your target on 1 day this week. Try and increase more of your walking to brisk to stay on track.",
+      "wheelchair_text": "You hit your target on 1 day this week. Try to increase more of your wheeling to brisk in order to stay on track."
     }
   },
   {
@@ -372,7 +374,8 @@
     "pk": 17,
     "fields": {
       "condition": "weeks_days_2_3",
-      "text": "You hit your target on %d days this week. Try and increase more of your walking to brisk to stay on track."
+      "text": "You hit your target on %d days this week. Try and increase more of your walking to brisk to stay on track.",
+      "wheelchair_text": "You hit your target on %d days this week. Try to increase more of your wheeling to brisk in order to stay on track."
     }
   },
   {
@@ -402,7 +405,8 @@
     "fields": {
       "condition": "0_a10s_0_mins",
       "text": "Let's get brisk walking to achieve an Active 10",
-      "target": 1
+      "target": 1,
+      "wheelchair_text": "Let's get brisk wheeling to achieve an Active 10"
     }
   },
   {
@@ -483,7 +487,8 @@
     "fields": {
       "condition": "0_a10s_0_mins",
       "text": "Let's get brisk walking to achieve an Active 10",
-      "target": 2
+      "target": 2,
+      "wheelchair_text": "Let's get brisk wheeling to achieve an Active 10"
     }
   },
   {
@@ -564,7 +569,8 @@
     "fields": {
       "condition": "0_a10s_0_mins",
       "text": "Let's get brisk walking to achieve an Active 10",
-      "target": 3
+      "target": 3,
+      "wheelchair_text": "Let's get brisk wheeling to achieve an Active 10"
     }
   },
   {

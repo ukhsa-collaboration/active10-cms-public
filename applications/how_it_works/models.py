@@ -2,9 +2,11 @@ import reversion
 from django.core.validators import MaxLengthValidator
 from django.db import models
 
+from utils.activity import ActivityTypeModel
+
 
 @reversion.register()
-class HowItWorks(models.Model):
+class HowItWorks(ActivityTypeModel):
     title = models.CharField(max_length=20, help_text="Max: 20 symbols")
     description = models.TextField(
         help_text="Max: 200 symbols", validators=[MaxLengthValidator(200)]

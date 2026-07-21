@@ -177,3 +177,22 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# AI agents
+.claude
+.gemini
+.cursor
+.copilot
+.alder
+
+# Lefthook local overrides
+lefthook-local.yml
+
+# Database dumps
+*.dump
+*.pgdump
+*.sql.gz
+dump.rdb
+dumps/
+CLAUDE.md
+

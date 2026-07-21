@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "baton.autodiscover",
+    # "admin_honeypot",
     "rest_framework",
     "drf_yasg",
     "colorful",
@@ -55,6 +56,7 @@ INSTALLED_APPS = [
     "reversion",
     "ckeditor",
     "admin_ordering",
+    # "import_export",
     "adminsortable2",
     "subject_imagefield",
     "django_otp",
@@ -81,6 +83,7 @@ INSTALLED_APPS = [
     "applications.views.apps.ViewsConfig",
     "applications.walking_plans.apps.WalkingPlansConfig",
     "csp",
+    "survey_monkey",
 ]
 
 MIDDLEWARE = [
@@ -242,6 +245,18 @@ BATON = {
     "POWERED_BY": '<a href="https://flipsidegroup.com/">Flipside</a>',
     "MENU": (
         {"type": "title", "label": "management", "apps": ("auth",)},
+        # {
+        #     "type": "app",
+        #     "name": "admin_honeypot",
+        #     "label": "Admin honeypot",
+        #     "icon": "fa fa-bath",
+        #     "models": (
+        #         {
+        #             "name": "loginattempt",
+        #             "label": "Login Attempt"
+        #         },
+        #     )
+        # },
         {
             "type": "app",
             "name": "auth",
@@ -477,4 +492,10 @@ CSP_SCRIPT_SRC = (
 )
 CSP_IMG_SRC = ("'self'", "*.s3.amazonaws.com", AWS_S3_CUSTOM_DOMAIN, "https://www.gravatar.com")
 CSP_FONT_SRC = ("'self'", "*.s3.amazonaws.com", AWS_S3_CUSTOM_DOMAIN, "https://www.gravatar.com")
+SURVEYMONKEY_CLIENT_ID = getenv("SURVEYMONKEY_CLIENT_ID", "")
+SURVEYMONKEY_CLIENT_SECRET = getenv("SURVEYMONKEY_CLIENT_SECRET", "")
+SURVEYMONKEY_API_BASE_URL = getenv(
+    "SURVEYMONKEY_API_BASE_URL",
+    "https://api.surveymonkey.com/v3",
+)
 

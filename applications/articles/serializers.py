@@ -77,6 +77,7 @@ class ArticleSerializer(serializers.ModelSerializer):
             "view_ids",
             "content_view_ids",
             "user_group",
+            "activity_type",
         ]
 
 

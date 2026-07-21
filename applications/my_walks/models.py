@@ -1,4 +1,5 @@
 import reversion
+
 from django.db import models
 
 
@@ -6,6 +7,7 @@ from django.db import models
 class MyWalk(models.Model):
     condition = models.CharField(max_length=255)
     text = models.TextField()
+    wheelchair_text = models.TextField(blank=True, default="")
 
     class Meta:
         verbose_name = "My walks dynamic text"
@@ -31,7 +33,9 @@ class TodayWalk(models.Model):
 class Target(models.Model):
     condition = models.CharField(max_length=255)
     text = models.TextField()
+    wheelchair_text = models.TextField(blank=True, default="")
     target = models.ForeignKey(TodayWalk, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.condition
+

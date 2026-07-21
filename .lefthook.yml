@@ -1,0 +1,31 @@
+# Python/Django Lefthook configuration
+#
+# Setup:
+#   1. Copy this file to your project root
+#   2. mise install            # installs lefthook + tools
+#   3. mise run setup          # installs deps + writes git hooks
+#
+# All commands are dispatched through mise tasks defined in .mise.toml.
+# Keep .mise.toml and this file in sync — single source of truth for
+# commands lives in .mise.toml so local dev and CI run the same thing.
+
+pre-commit:
+  parallel: true
+  commands:
+    leaks-staged:
+      run: mise run leaks-staged
+    code-check:
+      run: mise run code-check
+    # Optional repo-hygiene (requires `pip install pre-commit-hooks`).
+    # check-added-large-files:
+    #   run: check-added-large-files
+
+pre-push:
+  parallel: false
+  commands:
+    trivy:
+      priority: 1
+      run: mise run audit
+    test:
+      priority: 2
+      run: mise run test

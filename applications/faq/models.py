@@ -1,9 +1,11 @@
 import reversion
 from django.db import models
 
+from utils.activity import ActivityTypeModel
+
 
 @reversion.register()
-class Faq(models.Model):
+class Faq(ActivityTypeModel):
     title = models.CharField(max_length=255)
     text = models.TextField()
     list_order = models.PositiveIntegerField(default=0)

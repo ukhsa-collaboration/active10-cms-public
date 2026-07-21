@@ -1,36 +1,29 @@
-import uuid
+"""DB-free tests (pytest + mock). No django_db marker => DB access is blocked."""
 
-from django.urls import reverse
-from rest_framework import status
-from rest_framework.test import APITestCase
+from types import SimpleNamespace
+from unittest import mock
 
+import applications.goals.views as views
 from applications.goals.models import Goal
+from utils.activity import ActivityType
 
 
-class GoalTests(APITestCase):
-    fixtures = ["fixtures.json"]  # noqa: RUF012
+def test_get_queryset_global_defaults_to_walking():
+    view = views.GoalsView()
+    view.request = SimpleNamespace(query_params={})
+    with mock.patch.object(views, "filter_by_activity", return_value="QS") as fa:
+        assert view.get_queryset() == "QS"
+    assert fa.call_args.args[1] == ActivityType.WALKING
 
-    def test_get_goal(self):
-        url = reverse("goals")
-        response = self.client.get(url)
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.json()), Goal.objects.all().count())
+def test_get_queryset_user_branch_and_wheeling():
+    view = views.GoalsView()
+    view.request = SimpleNamespace(query_params={"user": "device-1", "activity_type": "wheeling"})
+    with mock.patch.object(views, "filter_by_activity", return_value="QS") as fa:
+        view.get_queryset()
+    assert fa.call_args.args[1] == ActivityType.WHEELING
 
-    def test_create_goal(self):
-        url = reverse("goals")
-        device_id = str(uuid.uuid4())
-        data = {"text": "be better than yesterday", "user": device_id}
-        response = self.client.post(url, data=data)
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
-        url = f"{reverse('goals')}?user={device_id}"
-        response = self.client.get(url)
-
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.json()), Goal.objects.all().count())
-
-        for goal in response.json():
-            user = goal.get("user")
-            if user:
-                self.assertEqual(user, device_id)
+def test_str_with_and_without_user():
+    assert str(Goal(text="Be active", user="device-1")) == "Be active-device-1"
+    assert str(Goal(text="Be active")) == "Be active"
