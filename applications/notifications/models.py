@@ -55,7 +55,7 @@ class Reminder(ActivityTypeModel):
 
 
 @reversion.register()
-class LocalNotification(models.Model):
+class LocalNotification(ActivityTypeModel):
     slug = models.CharField(max_length=64)
     title = models.CharField(max_length=255, default="", blank=True)
     description = models.TextField()

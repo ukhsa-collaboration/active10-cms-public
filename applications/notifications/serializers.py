@@ -96,7 +96,7 @@ class NotificationsSerializer(serializers.Serializer):
         )
 
         serialized_local = LocalNotificationSerializer(
-            LocalNotification.objects.all(),
+            filter_by_activity(LocalNotification.objects.all(), activity),
             many=True,
             context=self.context,
         )
