@@ -6,12 +6,12 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('how_it_works', '0006_howitworks_activity_type'),
+        ("how_it_works", "0006_howitworks_activity_type"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='howitworks',
-            options={'ordering': ['list_order', 'id'], 'verbose_name': 'How It Works', 'verbose_name_plural': 'How It Works'},
+            name="howitworks",
+            options={"ordering": ["list_order", "id"], "verbose_name": "How It Works", "verbose_name_plural": "How It Works"},
         ),
     ]
