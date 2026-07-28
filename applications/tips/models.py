@@ -18,6 +18,7 @@ class MainTip(ActivityTypeModel):
     class Meta:
         verbose_name = "Tip"
         verbose_name_plural = "Tips"
+        ordering = ["list_order", "id"]
 
     def __str__(self):
         return self.title
