@@ -67,6 +67,7 @@ urlpatterns = [
     path("api/v1/active10/faq/", include("applications.faq.urls")),
     path("api/v1/active10/discover/", include("applications.discover.urls")),
     path("api/v1/active10/dynamic-texts/", include("applications.my_walks.urls")),
+    path("api/v1/active10/dynamic-texts/", include("applications.my_walks.urls_v2")),
     path("api/v1/active10/onboarding/", include("applications.onboarding.urls")),
     path("api/v1/active10/goals/", include("applications.goals.urls")),
     path("api/v1/active10/tips/", include("applications.tips.urls")),

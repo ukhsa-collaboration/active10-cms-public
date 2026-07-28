@@ -17,6 +17,7 @@ class HowItWorks(ActivityTypeModel):
     class Meta:
         verbose_name = "How It Works"
         verbose_name_plural = "How It Works"
+        ordering = ["list_order", "id"]
 
     def __str__(self):
         return self.title

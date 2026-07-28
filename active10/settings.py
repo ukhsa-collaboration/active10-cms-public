@@ -377,8 +377,11 @@ BATON = {
         {
             "type": "app",
             "name": "onboarding",
-            "label": "On boarding",
-            "models": ({"name": "readytogetstarted", "label": "Ready to get started"},),
+            "label": "Onboarding",
+            "models": (
+                {"name": "readytogetstarted", "label": "Ready to get started"},
+                {"name": "onboarding","label": "Onboarding"},
+            ),
         },
         {
             "type": "app",
