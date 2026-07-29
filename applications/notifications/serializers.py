@@ -25,9 +25,7 @@ class LapsedSerializer(serializers.ModelSerializer):
         fields = ["ident", "copy", "userinfo", "days"]  # noqa: RUF012
 
     def get_userinfo(self, obj):
-        serializer = UserInfoSerializer(
-            obj.userinfo.all(), many=True, context=self.context
-        )
+        serializer = UserInfoSerializer(obj.userinfo.all(), many=True, context=self.context)
 
         # Flaten the list of dictionaries
         result = {}
@@ -45,9 +43,7 @@ class OnboardingSerializer(serializers.ModelSerializer):
         fields = ["day", "copy", "userinfo"]  # noqa: RUF012
 
     def get_userinfo(self, obj):
-        serializer = UserInfoSerializer(
-            obj.userinfo.all(), many=True, context=self.context
-        )
+        serializer = UserInfoSerializer(obj.userinfo.all(), many=True, context=self.context)
 
         # Flaten the list of dictionaries
         result = {}
@@ -60,7 +56,7 @@ class OnboardingSerializer(serializers.ModelSerializer):
 class ReminderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reminder
-        fields = ["copy"]  # noqa: RUF012
+        fields = ["copy", "activity_type"]
 
 
 class LocalNotificationSerializer(serializers.ModelSerializer):
@@ -102,13 +98,20 @@ class NotificationsSerializer(serializers.Serializer):
         )
 
         reminder = ""
-
         if len(serialized_reminder.data) > 0:
-            reminder = serialized_reminder.data[0].get("copy")
+            reminder = next(
+                (
+                    r.get("copy")
+                    for r in serialized_reminder.data
+                    if r.get("activity_type", None) == ActivityType.WALKING
+                ),
+                "",
+            )
 
         return {
             "onboarding": serialized_onboarding.data,
             "lapsed": serialized_lapsed.data,
+            "reminders": serialized_reminder.data,
             "reminder": reminder,
             "local": serialized_local.data,
         }

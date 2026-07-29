@@ -42,3 +42,35 @@ class TestOnboardingSerializer:
         ):
             serializer.get_ready_to_get_started(SimpleNamespace())
         assert pick.call_args.args[1] == ActivityType.WALKING
+
+
+class TestOnboardingV2View:
+    def test_get_queryset_filters_by_activity(self):
+        view = views.OnboardingV2View()
+        view.request = SimpleNamespace(query_params={"activity_type": "wheeling"})
+        with (
+            mock.patch.object(views.OnboardingV2View, "queryset", "ALL"),
+            mock.patch.object(views, "filter_by_activity", return_value="QS") as fa,
+        ):
+            assert view.get_queryset() == "QS"
+        assert fa.call_args.args[1] == ActivityType.WHEELING
+
+
+class TestOnboardingSerializerV2:
+    def test_ready_to_get_started_matches_the_rows_own_activity(self):
+        # The key v2 behaviour: a wheeling onboarding row gets the wheeling copy,
+        # matched on the row's own activity_type rather than the request's.
+        serializer = serializers.OnboardingSerializerV2()
+        with (
+            mock.patch.object(serializers, "pick_by_activity", return_value="READY") as pick,
+            mock.patch.object(
+                serializers, "ReadyToGetStartedSerializerV2", return_value=SimpleNamespace(data={"k": 1})
+            ),
+        ):
+            row = SimpleNamespace(activity_type=ActivityType.WHEELING)
+            assert serializer.get_ready_to_get_started(row) == {"k": 1}
+
+        assert pick.call_args.args[1] == ActivityType.WHEELING
+
+    def test_exposes_activity_type_so_the_app_can_tell_entries_apart(self):
+        assert "activity_type" in serializers.OnboardingSerializerV2.Meta.fields
