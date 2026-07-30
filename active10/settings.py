@@ -380,7 +380,7 @@ BATON = {
             "label": "Onboarding",
             "models": (
                 {"name": "readytogetstarted", "label": "Ready to get started"},
-                {"name": "onboarding","label": "Onboarding"},
+                {"name": "onboarding", "label": "Onboarding"},
             ),
         },
         {
@@ -478,27 +478,19 @@ CSRF_COOKIE_AGE = 86400  # 1 day
 SESSION_COOKIE_SECURE = True  # Ensures the session cookie is only sent over HTTPS
 SESSION_COOKIE_AGE = 86400  # 1 day
 
-CSP_DEFAULT_SRC = ("'self'", "*.s3.amazonaws.com", AWS_S3_CUSTOM_DOMAIN, "https://www.gravatar.com")
-CSP_STYLE_SRC = (
-    "'self'",
-    "*.s3.amazonaws.com",
-    AWS_S3_CUSTOM_DOMAIN,
-    "https://www.gravatar.com",
-    "'unsafe-inline'",
+# AWS_S3_CUSTOM_DOMAIN is None when no bucket is configured (e.g. local dev)
+CSP_COMMON_SRC = tuple(
+    src for src in ("'self'", "*.s3.amazonaws.com", AWS_S3_CUSTOM_DOMAIN, "https://www.gravatar.com") if src is not None
 )
-CSP_SCRIPT_SRC = (
-    "'self'",
-    "*.s3.amazonaws.com",
-    AWS_S3_CUSTOM_DOMAIN,
-    "https://www.gravatar.com",
-    "'unsafe-inline'",
-)
-CSP_IMG_SRC = ("'self'", "*.s3.amazonaws.com", AWS_S3_CUSTOM_DOMAIN, "https://www.gravatar.com")
-CSP_FONT_SRC = ("'self'", "*.s3.amazonaws.com", AWS_S3_CUSTOM_DOMAIN, "https://www.gravatar.com")
+
+CSP_DEFAULT_SRC = CSP_COMMON_SRC
+CSP_STYLE_SRC = (*CSP_COMMON_SRC, "'unsafe-inline'")
+CSP_SCRIPT_SRC = (*CSP_COMMON_SRC, "'unsafe-inline'")
+CSP_IMG_SRC = CSP_COMMON_SRC
+CSP_FONT_SRC = CSP_COMMON_SRC
 SURVEYMONKEY_CLIENT_ID = getenv("SURVEYMONKEY_CLIENT_ID", "")
 SURVEYMONKEY_CLIENT_SECRET = getenv("SURVEYMONKEY_CLIENT_SECRET", "")
 SURVEYMONKEY_API_BASE_URL = getenv(
     "SURVEYMONKEY_API_BASE_URL",
     "https://api.surveymonkey.com/v3",
 )
-
