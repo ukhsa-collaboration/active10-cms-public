@@ -33,7 +33,7 @@ class TestNotificationsSerializer:
         ):
             local.all.return_value = []
             data = serializer.to_representation(None)
-        assert data == {"onboarding": [], "lapsed": [], "reminder": "", "local": []}
+        assert data == {"onboarding": [], "lapsed": [], "reminders": [], "reminder": "", "local": []}
 
     def test_to_representation_with_data(self):
         serializer = self._serializer({"activity_type": "wheeling"})
@@ -41,15 +41,50 @@ class TestNotificationsSerializer:
             mock.patch.object(serializers, "filter_by_activity", return_value=[]),
             mock.patch.object(serializers, "OnboardingSerializer", return_value=SimpleNamespace(data=[{"copy": "o"}])),
             mock.patch.object(serializers, "LapsedSerializer", return_value=SimpleNamespace(data=[{"copy": "l"}])),
-            mock.patch.object(serializers, "ReminderSerializer", return_value=SimpleNamespace(data=[{"copy": "r"}])),
+            mock.patch.object(
+                serializers,
+                "ReminderSerializer",
+                return_value=SimpleNamespace(data=[{"copy": "r", "activity_type": "walking"}]),
+            ),
             mock.patch.object(
                 serializers, "LocalNotificationSerializer", return_value=SimpleNamespace(data=[{"slug": "s"}])
             ),
         ):
             data = serializer.to_representation(None)
         assert data["reminder"] == "r"
+        assert data["reminders"] == [{"copy": "r", "activity_type": "walking"}]
         assert data["onboarding"] == [{"copy": "o"}]
         assert data["local"] == [{"slug": "s"}]
+
+    def test_reminder_scalar_holds_the_walking_copy(self):
+        # `reminders` carries every journey's copy; the legacy scalar `reminder` stays
+        # walking-only, so the v1 app keeps getting the copy it always got.
+        serializer = self._serializer({"activity_type": "both"})
+        rows = [{"copy": "wheel", "activity_type": "wheeling"}, {"copy": "walk", "activity_type": "walking"}]
+        with (
+            mock.patch.object(serializers, "filter_by_activity", return_value=[]),
+            mock.patch.object(serializers, "ReminderSerializer", return_value=SimpleNamespace(data=rows)),
+            mock.patch.object(serializers.LocalNotification, "objects") as local,
+        ):
+            local.all.return_value = []
+            data = serializer.to_representation(None)
+
+        assert data["reminder"] == "walk"
+        assert data["reminders"] == rows
+
+    def test_reminder_scalar_empty_when_no_walking_copy(self):
+        serializer = self._serializer({"activity_type": "wheeling"})
+        rows = [{"copy": "wheel", "activity_type": "wheeling"}]
+        with (
+            mock.patch.object(serializers, "filter_by_activity", return_value=[]),
+            mock.patch.object(serializers, "ReminderSerializer", return_value=SimpleNamespace(data=rows)),
+            mock.patch.object(serializers.LocalNotification, "objects") as local,
+        ):
+            local.all.return_value = []
+            data = serializer.to_representation(None)
+
+        assert data["reminder"] == ""
+        assert data["reminders"] == rows
 
     def test_to_representation_without_request_defaults_walking(self):
         serializer = serializers.NotificationsSerializer()

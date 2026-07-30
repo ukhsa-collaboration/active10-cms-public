@@ -62,16 +62,17 @@ def filter_by_activity(queryset, activity):
     return queryset.filter(activity_type__in=[activity, ActivityType.BOTH])
 
 
-def pick_by_activity(queryset, activity):
-    """Pick the single record best matching ``activity``.
+def pick_by_activity(queryset: models.QuerySet, activity):
+    """Pick the single record to serve for ``activity``.
 
     For singleton-style content (onboarding) where exactly one record should be
-    served. Prefers an exact-activity record, then a ``both`` record, then falls
-    back to ``walking`` and finally any record, so the endpoint never returns
-    empty just because a wheeling-specific record hasn't been authored yet.
+    served. Walks the same ``[activity, both]`` cascade as
+    :func:`filter_by_activity`: the newest record tagged for the journey itself,
+    else the newest ``both`` record. Returns ``None`` when neither exists, rather
+    than serving another journey's copy.
     """
-    for candidate in (activity, ActivityType.BOTH, ActivityType.WALKING):
-        obj = queryset.filter(activity_type=candidate).first()
+    for activity_type in (activity, ActivityType.BOTH):
+        obj = queryset.filter(activity_type=activity_type).order_by("-pk").first()
         if obj is not None:
             return obj
-    return queryset.first()
+    return None

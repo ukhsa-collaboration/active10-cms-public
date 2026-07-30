@@ -61,39 +61,55 @@ class TestFilterByActivity:
         assert result is queryset
 
 
-class _FakeQuerySet:
-    """Minimal queryset double keyed by ``activity_type`` value."""
+def _rows(*activity_types):
+    """Rows tagged with an activity type, ``pk`` ascending in argument order."""
+    return [SimpleNamespace(pk=pk, activity_type=value) for pk, value in enumerate(activity_types, start=1)]
 
-    def __init__(self, by_activity):
-        self._by_activity = by_activity
+
+class _FakeQuerySet:
+    """Minimal queryset double over rows carrying ``pk`` and ``activity_type``."""
+
+    def __init__(self, rows):
+        self._rows = list(rows)
 
     def filter(self, **kwargs):
-        match = self._by_activity.get(kwargs.get("activity_type"))
-        return _FakeQuerySet({kwargs.get("activity_type"): match} if match is not None else {})
+        return _FakeQuerySet([row for row in self._rows if row.activity_type == kwargs["activity_type"]])
+
+    def order_by(self, field):
+        assert field == "-pk", f"unexpected ordering: {field}"
+        return _FakeQuerySet(sorted(self._rows, key=lambda row: row.pk, reverse=True))
 
     def first(self):
-        for obj in self._by_activity.values():
-            if obj is not None:
-                return obj
-        return None
+        return self._rows[0] if self._rows else None
 
 
 class TestPickByActivity:
     def test_exact_match_wins(self):
-        qs = _FakeQuerySet({"walking": "WALK", "wheeling": "WHEEL", "both": "BOTH"})
-        assert pick_by_activity(qs, ActivityType.WHEELING) == "WHEEL"
+        rows = _rows("walking", "wheeling", "both")
+        assert pick_by_activity(_FakeQuerySet(rows), ActivityType.WHEELING) is rows[1]
+
+    def test_newest_exact_match_wins(self):
+        # Several wheeling records authored → serve the most recent one.
+        rows = _rows("wheeling", "both", "wheeling")
+        assert pick_by_activity(_FakeQuerySet(rows), ActivityType.WHEELING) is rows[2]
 
     def test_falls_back_to_both_when_no_exact_match(self):
-        qs = _FakeQuerySet({"both": "BOTH"})
-        assert pick_by_activity(qs, ActivityType.WHEELING) == "BOTH"
+        rows = _rows("walking", "both")
+        assert pick_by_activity(_FakeQuerySet(rows), ActivityType.WHEELING) is rows[1]
 
-    def test_falls_back_to_walking_when_no_wheeling_authored(self):
-        # The common case: only walking copy exists, wheeling app asks → don't 404/empty.
-        qs = _FakeQuerySet({"walking": "WALK"})
-        assert pick_by_activity(qs, ActivityType.WHEELING) == "WALK"
+    def test_falls_back_to_newest_both(self):
+        rows = _rows("both", "both")
+        assert pick_by_activity(_FakeQuerySet(rows), ActivityType.WHEELING) is rows[1]
+
+    def test_returns_none_when_only_another_journey_authored(self):
+        # No wheeling and no 'both' copy → serve nothing rather than walking copy.
+        assert pick_by_activity(_FakeQuerySet(_rows("walking")), ActivityType.WHEELING) is None
 
     def test_returns_none_when_empty(self):
-        assert pick_by_activity(_FakeQuerySet({}), ActivityType.WHEELING) is None
+        assert pick_by_activity(_FakeQuerySet([]), ActivityType.WHEELING) is None
+
+    def test_returns_none_for_unknown_tag(self):
+        assert pick_by_activity(_FakeQuerySet(_rows("wheeling")), "nonsense") is None
 
 
 class TestActivityTypeModel:
