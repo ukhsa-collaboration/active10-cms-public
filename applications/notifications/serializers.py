@@ -22,7 +22,7 @@ class LapsedSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Lapsed
-        fields = ["ident", "copy", "userinfo", "days"]  # noqa: RUF012
+        fields = ["ident", "copy", "userinfo", "days", "activity_type"]  # noqa: RUF012
 
     def get_userinfo(self, obj):
         serializer = UserInfoSerializer(obj.userinfo.all(), many=True, context=self.context)
@@ -40,7 +40,7 @@ class OnboardingSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Onboarding
-        fields = ["day", "copy", "userinfo"]  # noqa: RUF012
+        fields = ["day", "copy", "userinfo", "activity_type"]  # noqa: RUF012
 
     def get_userinfo(self, obj):
         serializer = UserInfoSerializer(obj.userinfo.all(), many=True, context=self.context)
@@ -56,13 +56,13 @@ class OnboardingSerializer(serializers.ModelSerializer):
 class ReminderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reminder
-        fields = ["copy", "activity_type"]
+        fields = ["copy", "activity_type"]  # noqa: RUF012
 
 
 class LocalNotificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = LocalNotification
-        fields = ["slug", "title", "description", "destination", "isLapsed"]  # noqa: RUF012
+        fields = ["slug", "title", "description", "destination", "isLapsed", "activity_type"]  # noqa: RUF012
 
 
 class NotificationsSerializer(serializers.Serializer):
