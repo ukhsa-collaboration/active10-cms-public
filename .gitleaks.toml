@@ -1,0 +1,32 @@
+title = "gitleaks config"
+
+# Inherit all default gitleaks rules.
+# Without this, a custom config replaces all
+# built-in rules instead of extending them.
+[extend]
+useDefault = true
+
+# Use this file for project-specific overrides only.
+
+[allowlist]
+  # Paths to exclude from scanning
+  paths = [
+    '''\.lock$''',
+    '''go\.sum$''',
+    '''vendor/''',
+    # Django migrations trigger false positives
+    # on the generic-api-key rule
+    '''migrations/''',
+    # iOS/Swift
+    '''Pods/''',
+    '''Package\.resolved''',
+    '''\.xcodeproj''',
+    '''google-services.json''',
+  ]
+
+  regexTarget = "line"
+  regexes = [
+      # Facebook client tokens are not secrets — they are embedded in the app binary
+      # and required for the Facebook SDK to function.
+    '''facebook_client_token''',
+  ]

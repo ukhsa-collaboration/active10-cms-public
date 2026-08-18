@@ -1,0 +1,78 @@
+[env]
+# Automatic virtualenv activation
+_.python.venv = { path = ".venv", create = true }
+
+[tools]
+python = "3.11"
+lefthook = "latest"
+trivy = "latest"
+gitleaks = "latest"
+
+[tasks.install]
+description = "Install dependencies"
+alias = "i"
+run = "pip install -r requirements.txt"
+
+[tasks.migrate]
+description = "Run database migrations"
+run = "./manage.py migrate"
+
+[tasks.dev]
+description = "Start development server"
+depends = ["migrate"]
+run = "./manage.py runserver"
+
+[tasks.server]
+description = "Start the development server"
+depends = ["migrate"]
+run = "./manage.py runserver"
+
+[tasks.console]
+description = "Start the Django shell"
+run = "./manage.py shell"
+
+[tasks.test]
+description = "Run tests"
+run = "pytest --cov=."
+
+[tasks.lint]
+description = "Run ruff linter"
+run = "ruff check ."
+
+[tasks.lint-fix]
+description = "Run ruff linter with auto-fix"
+run = "ruff check --fix ."
+
+[tasks.format]
+description = "Run ruff formatter"
+run = "ruff format ."
+
+[tasks.format-check]
+description = "Check formatting without changes"
+run = "ruff format --check ."
+
+[tasks.typecheck]
+description = "Run basedpyright type checker"
+run = "basedpyright"
+
+[tasks.audit]
+description = "Scan dependencies for CVEs (CRITICAL only)"
+run = "trivy fs --scanners vuln --exit-code 1 ."
+
+[tasks.leaks]
+description = "Check for secrets in the codebase"
+run = "gitleaks detect --source . --exit-code 1"
+
+[tasks.leaks-staged]
+description = "Check staged files for secrets"
+run = "gitleaks protect --staged --redact --verbose"
+
+[tasks.code-check]
+description = "Run all quality checks (lint + format + types)"
+depends = ["lint", "format-check", "typecheck"]
+run = []
+
+[tasks.setup]
+description = "Full project setup after clone"
+depends = ["install", "migrate"]
+run = "lefthook install"

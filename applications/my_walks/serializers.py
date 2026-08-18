@@ -46,9 +46,51 @@ class MyWalksSerializer(serializers.Serializer):
         return MyWalkDynamicTextSerializer(MyWalk.objects.all(), many=True).data
 
     def get_todays_walks_dynamic_text(self, obj):
-        return TodayWalkDynamicTextSerializer(TodayWalk.objects.prefetch_related('target_set').all(), many=True).data
+        return TodayWalkDynamicTextSerializer(TodayWalk.objects.prefetch_related("target_set").all(), many=True).data
 
     def to_representation(self, instance):
         original_representation = super(MyWalksSerializer, self).to_representation(instance)  # noqa: UP008
         final_representation = create_my_walk_representation(original_representation)
         return final_representation
+
+
+# --- v2 -----------------------------------------------------------------------
+
+class TargetV2Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Target
+        fields = ["condition", "text", "wheelchair_text"]
+
+
+class TodayWalkV2DynamicTextSerializer(serializers.ModelSerializer):
+    target = TargetV2Serializer(many=True, source="target_set")
+
+    class Meta:
+        model = TodayWalk
+        fields = ["target_name", "target"]
+
+
+class MyWalkV2DynamicTextSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MyWalk
+        fields = ["condition", "text", "wheelchair_text"]
+
+
+class MyWalksV2Serializer(serializers.Serializer):
+    my_walks_dynamic_text = serializers.SerializerMethodField()
+    todays_walks_dynamic_text = serializers.SerializerMethodField()
+
+    def __init__(self, instance=None, data=dict(), **kwargs):
+        return super(MyWalksV2Serializer, self).__init__(instance, data, **kwargs)
+
+    def get_my_walks_dynamic_text(self, obj):
+        return MyWalkV2DynamicTextSerializer(MyWalk.objects.all(), many=True).data
+
+    def get_todays_walks_dynamic_text(self, obj):
+        return TodayWalkV2DynamicTextSerializer(TodayWalk.objects.prefetch_related("target_set").all(), many=True).data
+
+
+
+
+
+

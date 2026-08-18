@@ -1,12 +1,20 @@
 FROM python:3.11.14-slim-bookworm
+
 ENV PYTHONUNBUFFERED=1
 
-RUN apt-get update &&\
-    apt-get install -y binutils libproj-dev gdal-bin build-essential python3-dev
+RUN apt-get update && \
+    apt-get install -y binutils libproj-dev gdal-bin build-essential python3-dev curl
 
-RUN apt-get -y install curl
 WORKDIR /code
+
 COPY requirements.txt /code/
-RUN pip install -r requirements.txt
+
+RUN apt-get update && \
+    apt-get install -y git && \
+    pip install -r requirements.txt && \
+    apt-get purge -y git && \
+    apt-get autoremove -y
+
 COPY . /code/
+
 ENTRYPOINT ["bash", "docker-entrypoint.sh"]

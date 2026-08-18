@@ -6,6 +6,7 @@ from rest_framework.response import Response
 
 from .models import Article, ArticleCategory, ArticleView, ArticleRelated, ContentView
 from .serializers import ArticleCategorySerializer, ArticleSerializer
+from utils.activity import filter_by_activity, resolve_activity
 
 
 @method_decorator(cache_page(60), name="dispatch")
@@ -28,7 +29,9 @@ class ArticlesViewSet(viewsets.ModelViewSet):
             return Response({"error": "Invalid user group"}, status=400)
 
         if user_group != "all":
-            queryset = queryset.filter(user_group=user_group)
+          queryset = queryset.filter(user_group=user_group)
+
+        queryset = filter_by_activity(queryset, resolve_activity(request))
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 

@@ -1,33 +1,113 @@
-[tool.pytest.ini_options]
-DJANGO_SETTINGS_MODULE = "active10.settings"
-testpaths = ["tests"]
-python_files = ["tests/**/*.py"]
+# Python/Django tooling configuration.
+# Synced from code-quality-template (python/pyproject.toml) by /hai5-init
+# and adapted for active10 (Python 3.11, Django settings = active10.settings).
+#
+# Companion packages to add to requirements.txt for the full toolchain:
+#     ruff basedpyright django-stubs djangorestframework-stubs
+#     pytest pytest-cov pytest-django pre-commit-hooks
+
+
+# ═══════════════════════════════════════════════════════════════════
+# Ruff — linter, formatter, import sort, security
+# https://docs.astral.sh/ruff/
+# ═══════════════════════════════════════════════════════════════════
 
 [tool.ruff]
+# Must match .python-version, mise's [tools] python, and basedpyright.
 target-version = "py311"
-line-length = 100
+line-length = 120
+indent-width = 4
+
 exclude = [
-  ".git",
-  ".venv",
-  "venv",
-  "node_modules",
-  "build",
-  "dist",
-  "migrations",
-  "__pycache__",
+    ".git",
+    ".venv",
+    "venv",
+    "__pycache__",
+    "node_modules",
+    "static",
+    "media",
+    "build",
+    "dist",
+    "migrations",   # auto-generated; not worth linting
 ]
 
 [tool.ruff.lint]
-select = ["E", "F", "I", "B", "UP", "SIM", "PL", "RUF"]
-preview = false
+select = [
+    "E",   # pycodestyle errors
+    "F",   # pyflakes
+    "W",   # pycodestyle warnings
+    "I",   # isort (import sorting)
+    "N",   # pep8-naming
+    "B",   # flake8-bugbear
+    "UP",  # pyupgrade
+    "DJ",  # flake8-django (DJ001 nullable strings, DJ012 model layout, etc.)
+    "A",   # flake8-builtins
+    "C4",  # flake8-comprehensions
+    "S",   # bandit (security)
+    "SIM", # flake8-simplify
+    "RUF", # ruff-specific rules (incl. RUF012)
+]
 
-# Ignore long lines in Django migration autogen files, etc.
+ignore = [
+    "E501",   # line too long (handled by formatter)
+    "A003",   # class attribute shadowing builtin (Django uses 'id', 'type', ...)
+    "RUF012", # mutable class variable without ClassVar (false positive for Django fields)
+]
+
 [tool.ruff.lint.per-file-ignores]
-"**/migrations/*.py" = ["E501", "F401", "F403"]
+"__init__.py" = ["F401", "F403"]
+"**/settings.py" = ["F405", "S105"]
+"**/settings/**" = ["F405", "S105"]
+"manage.py" = ["E402"]
+"**/tests/**" = ["S101", "S105", "S106", "F401", "F403", "F405"]
+"**/test_*.py" = ["S101", "S105", "S106"]
+"**/tests.py" = ["S101", "S105", "S106"]
+"**/migrations/*.py" = ["E501", "F401", "N806"]
+"**/models.py" = ["RUF012"]
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
+
+[tool.ruff.lint.isort.sections]
+"django" = ["django"]
 
 [tool.ruff.format]
-line-ending = "lf"
-indent-style = "space"
 quote-style = "double"
-docstring-code-format = true
-skip-magic-trailing-comma = false
+indent-style = "space"
+line-ending = "lf"
+
+
+# ═══════════════════════════════════════════════════════════════════
+# Basedpyright — primary type checker
+# https://docs.basedpyright.com/
+#
+# Without django-stubs / djangorestframework-stubs installed, expect ~10×
+# the noise on Django code (every `Model.objects` access becomes "Unknown").
+# ═══════════════════════════════════════════════════════════════════
+
+[tool.basedpyright]
+include = ["active10", "applications", "utils"]
+
+exclude = [
+    ".venv",
+    "venv",
+    "**/migrations",
+    "**/node_modules",
+    "**/__pycache__",
+    "build",
+    "dist",
+    "static",
+    "media",
+]
+
+# "basic" — preferred for LEGACY codebases. Reduces initial noise so the team
+# can adopt types gradually. Bump to "standard" once the baseline is clean.
+typeCheckingMode = "basic"
+useLibraryCodeForTypes = true
+reportMissingTypeStubs = false
+
+# Pin to the project's actual Python version (matches .python-version).
+pythonVersion = "3.11"
+
+[tool.django-stubs]
+django_settings_module = "active10.settings"

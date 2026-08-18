@@ -11,6 +11,6 @@ class NotificationsView(GenericAPIView):
     serializer_class = NotificationsSerializer
 
     def get(self, request, *args, **kwargs):
-        serializer = self.serializer_class()
+        serializer = self.serializer_class(context={"request": request})
         serializer.is_valid(raise_exception=True)
         return Response(serializer.data)

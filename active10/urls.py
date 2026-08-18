@@ -59,6 +59,7 @@ schema_view = get_schema_view(
 urlpatterns = [
     path("baton/app-list-json/", _get_app_list_json),
     path("", include(tf_urls)),
+    # re_path(r"^admin/", include("admin_honeypot.urls", namespace="admin_honeypot")),
     path("dhsc-admin/", admin.site.urls),
     path("baton/", include("baton.urls")),
     path("admin/versions/", include("applications.versions.urls")),
@@ -66,7 +67,9 @@ urlpatterns = [
     path("api/v1/active10/faq/", include("applications.faq.urls")),
     path("api/v1/active10/discover/", include("applications.discover.urls")),
     path("api/v1/active10/dynamic-texts/", include("applications.my_walks.urls")),
+    path("api/v2/active10/dynamic-texts/", include("applications.my_walks.urls_v2")),
     path("api/v1/active10/onboarding/", include("applications.onboarding.urls")),
+    path("api/v2/active10/onboarding/", include("applications.onboarding.urls_v2")),
     path("api/v1/active10/goals/", include("applications.goals.urls")),
     path("api/v1/active10/tips/", include("applications.tips.urls")),
     path("api/v1/active10/how-it-works/", include("applications.how_it_works.urls")),
@@ -74,11 +77,6 @@ urlpatterns = [
     path("api/v1/active10/global_rules/", include("applications.global_rules.urls")),
     path("api/v1/active10/legals/", include("applications.legals.urls")),
     path("api/", include("applications.rewards.urls")),
-    path(
-        "api/v1/active10/docs/",
-        schema_view.with_ui("swagger", cache_timeout=0),
-        name="schema-swagger-ui",
-    ),
     path("api/v1/active10/", include("applications.articles.urls")),
     path("api/v1/active10/", include("applications.views.urls")),
     path(
@@ -92,6 +90,7 @@ urlpatterns = [
         name="new-check-integrity-token",
     ),
     path("api/v1/active10/walking-plans/", include("applications.walking_plans.urls")),
+    path("api/", include("survey_monkey.urls")),
     re_path(r"^static/*", redirect_static_view),
     re_path("healthcheck", include("health_check.urls")),
     re_path(r"^favicon\.ico$", RedirectView.as_view(url=f"{settings.STATIC_URL}favicon.ico")),
@@ -99,3 +98,8 @@ urlpatterns = [
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+if settings.DEBUG:
+    urlpatterns += [
+        path("ap/docs/", schema_view.with_ui("swagger", cache_timeout=0), name="schema-swagger-ui"),
+    ]

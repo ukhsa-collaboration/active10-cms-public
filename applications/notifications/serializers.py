@@ -6,6 +6,7 @@ from applications.notifications.models import (
     Onboarding,
     Reminder,
 )
+from utils.activity import ActivityType, filter_by_activity, resolve_activity
 
 
 class UserInfoSerializer(serializers.Serializer):
@@ -21,12 +22,10 @@ class LapsedSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Lapsed
-        fields = ["ident", "copy", "userinfo", "days"]  # noqa: RUF012
+        fields = ["ident", "copy", "userinfo", "days", "activity_type"]  # noqa: RUF012
 
     def get_userinfo(self, obj):
-        serializer = UserInfoSerializer(
-            obj.userinfo.all(), many=True, context=self.context
-        )
+        serializer = UserInfoSerializer(obj.userinfo.all(), many=True, context=self.context)
 
         # Flaten the list of dictionaries
         result = {}
@@ -41,12 +40,10 @@ class OnboardingSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Onboarding
-        fields = ["day", "copy", "userinfo"]  # noqa: RUF012
+        fields = ["day", "copy", "userinfo", "activity_type"]  # noqa: RUF012
 
     def get_userinfo(self, obj):
-        serializer = UserInfoSerializer(
-            obj.userinfo.all(), many=True, context=self.context
-        )
+        serializer = UserInfoSerializer(obj.userinfo.all(), many=True, context=self.context)
 
         # Flaten the list of dictionaries
         result = {}
@@ -59,13 +56,13 @@ class OnboardingSerializer(serializers.ModelSerializer):
 class ReminderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reminder
-        fields = ["copy"]  # noqa: RUF012
+        fields = ["copy", "activity_type"]  # noqa: RUF012
 
 
 class LocalNotificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = LocalNotification
-        fields = ["slug", "title", "description", "destination", "isLapsed"]  # noqa: RUF012
+        fields = ["slug", "title", "description", "destination", "isLapsed", "activity_type"]  # noqa: RUF012
 
 
 class NotificationsSerializer(serializers.Serializer):
@@ -73,32 +70,48 @@ class NotificationsSerializer(serializers.Serializer):
         return super(NotificationsSerializer, self).__init__(instance, data, **kwargs)  # noqa: PLE0101, UP008
 
     def to_representation(self, instance):
+        request = self.context.get("request")
+        activity = resolve_activity(request) if request is not None else ActivityType.WALKING
+
         serialized_onboarding = OnboardingSerializer(
-            Onboarding.objects.prefetch_related('userinfo').all(), many=True, context=self.context
+            filter_by_activity(Onboarding.objects.prefetch_related("userinfo"), activity),
+            many=True,
+            context=self.context,
         )
 
-        serialized_lapsed = LapsedSerializer(Lapsed.objects.prefetch_related('userinfo').all(), many=True, context=self.context)
+        serialized_lapsed = LapsedSerializer(
+            filter_by_activity(Lapsed.objects.prefetch_related("userinfo"), activity),
+            many=True,
+            context=self.context,
+        )
 
         serialized_reminder = ReminderSerializer(
-            Reminder.objects.all(),
+            filter_by_activity(Reminder.objects.all(), activity),
             many=True,
             context=self.context,
         )
 
         serialized_local = LocalNotificationSerializer(
-            LocalNotification.objects.all(),
+            filter_by_activity(LocalNotification.objects.all(), activity),
             many=True,
             context=self.context,
         )
 
         reminder = ""
-
         if len(serialized_reminder.data) > 0:
-            reminder = serialized_reminder.data[0].get("copy")
+            reminder = next(
+                (
+                    r.get("copy")
+                    for r in serialized_reminder.data
+                    if r.get("activity_type", None) == ActivityType.WALKING
+                ),
+                "",
+            )
 
         return {
             "onboarding": serialized_onboarding.data,
             "lapsed": serialized_lapsed.data,
+            "reminders": serialized_reminder.data,
             "reminder": reminder,
             "local": serialized_local.data,
         }

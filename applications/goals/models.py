@@ -1,9 +1,11 @@
 import reversion
 from django.db import models
 
+from utils.activity import ActivityTypeModel
+
 
 @reversion.register()
-class Goal(models.Model):
+class Goal(ActivityTypeModel):
     text = models.TextField()
     user = models.CharField(max_length=50, blank=True, null=True)
     order = models.PositiveIntegerField(default=0, db_index=True)
