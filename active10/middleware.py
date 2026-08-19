@@ -66,6 +66,7 @@ class HostValidationMiddleware:
     def __call__(self, request):
         allowed_paths = ["/healthcheck"]
         allowed_hosts = [
+            "active10.dev.phedigital.co.uk",
             "active10.stg.phedigital.co.uk",
             "active10.prod.phedigital.co.uk",
             "cms.phedigital.co.uk",
