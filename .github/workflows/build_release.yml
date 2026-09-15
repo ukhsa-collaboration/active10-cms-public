@@ -62,8 +62,8 @@ jobs:
       sign_release: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
       deploy_environments: >-
         [
-          { "name": "dev", "base_url": "https://active10.dev.phedigital.co.uk", "smoke_test_url": "https://active10.dev.phedigital.co.uk/healthcheck" },
-          { "name": "uat", "base_url": "https://active10.stg.phedigital.co.uk", "smoke_test_url": "https://active10.stg.phedigital.co.uk/healthcheck" },
-          { "name": "prd", "base_url": "https://active10.prod.phedigital.co.uk", "smoke_test_url": "https://active10.prod.phedigital.co.uk/healthcheck" }
+          { "name": "dev", "base_url": "https://active10.dev.phedigital.co.uk", "smoke_test_url": "https://active10.dev.phedigital.co.uk/healthcheck", "predeploy_script": "scripts/collectstatic_predeploy.sh" },
+          { "name": "uat", "base_url": "https://active10.stg.phedigital.co.uk", "smoke_test_url": "https://active10.stg.phedigital.co.uk/healthcheck", "predeploy_script": "scripts/collectstatic_predeploy.sh" },
+          { "name": "prd", "base_url": "https://active10.prod.phedigital.co.uk", "smoke_test_url": "https://active10.prod.phedigital.co.uk/healthcheck", "predeploy_script": "scripts/collectstatic_predeploy.sh" }
         ]
     secrets: inherit # pragma: allowlist secret
