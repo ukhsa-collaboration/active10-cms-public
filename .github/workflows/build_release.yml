@@ -47,7 +47,7 @@ jobs:
       id-token: write
       actions: read
       pull-requests: write
-    uses: ukhsa-collaboration/devops-application-cicd/.github/workflows/container-image-build-python-aws-ecs.yml@c1fe8135f0510548a312ee3b3246267e04857de1 # v0.0.6
+    uses: ukhsa-collaboration/devops-application-cicd/.github/workflows/container-image-build-python-aws-ecs.yml@88569cb30e4174cf21ae4e66844da8e83b31bc39 # v0.0.13
     with:
       app_name: ${{ vars.APP_NAME }}
       service_identifier: ${{ vars.ECR_NAMESPACE }}
@@ -59,11 +59,10 @@ jobs:
       lint_python: false
       registry_account_id: "636728427214"
       aws_registry_role_name: "github-active-10-cms-ecr"
-      sign_release: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
       deploy_environments: >-
         [
-          { "name": "dev", "base_url": "https://active10.dev.phedigital.co.uk", "smoke_test_url": "https://active10.dev.phedigital.co.uk/healthcheck" },
-          { "name": "uat", "base_url": "https://active10.stg.phedigital.co.uk", "smoke_test_url": "https://active10.stg.phedigital.co.uk/healthcheck" },
-          { "name": "prd", "base_url": "https://active10.prod.phedigital.co.uk", "smoke_test_url": "https://active10.prod.phedigital.co.uk/healthcheck" }
+          { "name": "dev", "base_url": "https://active10.dev.phedigital.co.uk", "smoke_test_url": "https://active10.dev.phedigital.co.uk/healthcheck", "predeploy_script": "scripts/collectstatic_predeploy.sh" },
+          { "name": "uat", "base_url": "https://active10.stg.phedigital.co.uk", "smoke_test_url": "https://active10.stg.phedigital.co.uk/healthcheck", "predeploy_script": "scripts/collectstatic_predeploy.sh" },
+          { "name": "prd", "base_url": "https://active10.prod.phedigital.co.uk", "smoke_test_url": "https://active10.prod.phedigital.co.uk/healthcheck", "predeploy_script": "scripts/collectstatic_predeploy.sh" }
         ]
     secrets: inherit # pragma: allowlist secret
