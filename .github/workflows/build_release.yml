@@ -65,8 +65,8 @@ jobs:
         # Dev overrides these tests to allow empty content and exclude integrity checks.
       deploy_environments: >-
         [
-          { "name": "dev", "base_url": "https://active10.dev.phedigital.co.uk", "smoke_test_url": "https://active10.dev.phedigital.co.uk/healthcheck", "post_deploy_test_command": "python -m pip install -r tests/integration/requirements.txt && python -m pytest -c pyproject.toml tests/integration -m \"not authenticated and not admin_write and not debug_docs and not integrity\" --junitxml=test-results/integration.xml" },
-          { "name": "uat", "base_url": "https://active10.stg.phedigital.co.uk", "smoke_test_url": "https://active10.stg.phedigital.co.uk/healthcheck" },
-          { "name": "prd", "base_url": "https://active10.prod.phedigital.co.uk", "smoke_test_url": "https://active10.prod.phedigital.co.uk/healthcheck" }
+          { "name": "dev", "base_url": "https://active10.dev.phedigital.co.uk", "smoke_test_url": "https://active10.dev.phedigital.co.uk/healthcheck", "predeploy_script": "scripts/collectstatic_predeploy.sh", "post_deploy_test_command": "python -m pip install -r tests/integration/requirements.txt && python -m pytest -c pyproject.toml tests/integration -m \"not authenticated and not admin_write and not debug_docs and not integrity\" --junitxml=test-results/integration.xml" },
+          { "name": "uat", "base_url": "https://active10.stg.phedigital.co.uk", "smoke_test_url": "https://active10.stg.phedigital.co.uk/healthcheck", "predeploy_script": "scripts/collectstatic_predeploy.sh" },
+          { "name": "prd", "base_url": "https://active10.prod.phedigital.co.uk", "smoke_test_url": "https://active10.prod.phedigital.co.uk/healthcheck", "predeploy_script": "scripts/collectstatic_predeploy.sh" }
         ]
     secrets: inherit # pragma: allowlist secret

@@ -161,13 +161,13 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
     {
-        "NAME": "django_password_validators.password_history.password_validation.UniquePasswordsValidator",  # noqa: E501
+        "NAME": "django_password_validators.password_history.password_validation.UniquePasswordsValidator",
         "OPTIONS": {
             "last_passwords": 3  # Only the last 3 passwords entered by the user
         },
     },
     {
-        "NAME": "django_password_validators.password_character_requirements.password_validation.PasswordCharacterValidator",  # noqa: E501
+        "NAME": "django_password_validators.password_character_requirements.password_validation.PasswordCharacterValidator",
         "OPTIONS": {
             "min_length_digit": 1,
             "min_length_alpha": 2,
@@ -424,6 +424,7 @@ if getenv("AWS_STORAGE_BUCKET_NAME", None) is not None:
     REDIRECT_STATIC_TO_CDN = True
     AWS_ACCESS_KEY_ID = getenv("AWS_ACCESS_KEY_ID", "")
     AWS_SECRET_ACCESS_KEY = getenv("AWS_SECRET_ACCESS_KEY", "")
+    AWS_SESSION_TOKEN = getenv("AWS_SESSION_TOKEN", "")
     AWS_STORAGE_BUCKET_NAME = getenv("AWS_STORAGE_BUCKET_NAME", "")
 
     # Consider making a variable as well
