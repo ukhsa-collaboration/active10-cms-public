@@ -111,3 +111,17 @@ pythonVersion = "3.11"
 
 [tool.django-stubs]
 django_settings_module = "active10.settings"
+
+
+# HTTP integration tests; select explicitly with -c pyproject.toml.
+# The root pytest.ini remains the default configuration for Django tests.
+[tool.pytest.ini_options]
+testpaths = ["."]
+python_files = ["test_*.py"]
+addopts = '-v --tb=short --strict-markers -p no:django -p no:cov -m "not external and not authenticated and not admin_write and not debug_docs"'
+markers = [
+    "external: Requires external websites or configured Google credentials/services.",
+    "authenticated: Requires an admin account that can complete login without an OTP challenge.",
+    "admin_write: Creates and deletes CMS content; only run in a dedicated test environment.",
+    "debug_docs: Requires the development-only Swagger route.",
+]

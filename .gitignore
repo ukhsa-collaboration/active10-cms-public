@@ -196,3 +196,6 @@ dump.rdb
 dumps/
 CLAUDE.md
 
+
+# Pytest CI reports
+test-results/
