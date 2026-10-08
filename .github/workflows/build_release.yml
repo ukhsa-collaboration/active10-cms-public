@@ -62,10 +62,10 @@ jobs:
       post_deploy_test_command: |
         python -m pip install -r tests/integration/requirements.txt
         python -m pytest -c pyproject.toml tests/integration -m "not authenticated and not admin_write and not debug_docs" --require-content --junitxml=test-results/integration.xml
-        # These tests are overriden in dev to allow empty content to be present without failing the deployment.
+        # Dev overrides these tests to allow empty content and exclude integrity checks.
       deploy_environments: >-
         [
-          { "name": "dev", "base_url": "https://active10.dev.phedigital.co.uk", "smoke_test_url": "https://active10.dev.phedigital.co.uk/healthcheck", "post_deploy_test_command": "python -m pip install -r tests/integration/requirements.txt && python -m pytest -c pyproject.toml tests/integration -m \"not authenticated and not admin_write and not debug_docs\" --junitxml=test-results/integration.xml" },
+          { "name": "dev", "base_url": "https://active10.dev.phedigital.co.uk", "smoke_test_url": "https://active10.dev.phedigital.co.uk/healthcheck", "post_deploy_test_command": "python -m pip install -r tests/integration/requirements.txt && python -m pytest -c pyproject.toml tests/integration -m \"not authenticated and not admin_write and not debug_docs and not integrity\" --junitxml=test-results/integration.xml" },
           { "name": "uat", "base_url": "https://active10.stg.phedigital.co.uk", "smoke_test_url": "https://active10.stg.phedigital.co.uk/healthcheck" },
           { "name": "prd", "base_url": "https://active10.prod.phedigital.co.uk", "smoke_test_url": "https://active10.prod.phedigital.co.uk/healthcheck" }
         ]

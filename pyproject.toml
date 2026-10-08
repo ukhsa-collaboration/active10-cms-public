@@ -120,6 +120,7 @@ testpaths = ["."]
 python_files = ["test_*.py"]
 addopts = '-v --tb=short --strict-markers -p no:django -p no:cov -m "not external and not authenticated and not admin_write and not debug_docs"'
 markers = [
+    "integrity: Google Play Integrity endpoint checks; excluded from dev deployments.",
     "external: Requires external websites or configured Google credentials/services.",
     "authenticated: Requires an admin account that can complete login without an OTP challenge.",
     "admin_write: Creates and deletes CMS content; only run in a dedicated test environment.",

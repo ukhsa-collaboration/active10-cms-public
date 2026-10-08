@@ -48,8 +48,8 @@ checks. They skip locally when credentials are absent. Secure session/CSRF cooki
 require HTTPS for admin tests. Non-development environments enforce 2FA, so
 password-only login may not be sufficient.
 
-The deployment pipeline allows empty content in dev and requires content in uat
-and prd. Content-dependent tests skip if a collection or singleton is empty. Use `--require-content`
+The deployment pipeline allows empty content and excludes integrity checks in
+dev; uat and prd require content and include integrity checks. Content-dependent tests skip if a collection or singleton is empty. Use `--require-content`
 in a populated test environment to make that a failure. Rewards list, missing
 slug/category and rejected-write checks run even when rewards are empty; detail
 and category checks are independent for each version.
@@ -58,3 +58,10 @@ Google POST checks are optional because even missing-token validation requires
 service-account configuration in the current implementation. The new endpoint
 returns 500 for an invalid token after Google rejects it; the legacy endpoint
 proxies Google's error response. Neither test obtains a genuine device token.
+
+To match the dev pipeline locally:
+
+```bash
+BASE_URL=https://active10.dev.phedigital.co.uk/ python -m pytest -c pyproject.toml tests/integration \
+  -m "not authenticated and not admin_write and not debug_docs and not integrity"
+```

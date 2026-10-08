@@ -5,6 +5,7 @@ from .utils import assert_status
 NEW_INTEGRITY_URL_PATH = "/api/v1/new-check-integrity-token"
 LEGACY_INTEGRITY_URL_PATH = "/api/v1/check-integrity-token"
 params = {"format": "json"}
+pytestmark = pytest.mark.integrity
 
 
 @pytest.mark.parametrize("path", [NEW_INTEGRITY_URL_PATH, LEGACY_INTEGRITY_URL_PATH])
