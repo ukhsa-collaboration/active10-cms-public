@@ -47,7 +47,7 @@ jobs:
       id-token: write
       actions: read
       pull-requests: write
-    uses: ukhsa-collaboration/devops-application-cicd/.github/workflows/container-image-build-python-aws-ecs.yml@88569cb30e4174cf21ae4e66844da8e83b31bc39 # v0.0.13
+    uses: ukhsa-collaboration/devops-application-cicd/.github/workflows/container-image-build-python-aws-ecs.yml@78da9ef5ee88f7832eb16c05646f7279e03e0e47 # v0.0.13
     with:
       app_name: ${{ vars.APP_NAME }}
       service_identifier: ${{ vars.ECR_NAMESPACE }}
@@ -62,6 +62,15 @@ jobs:
       deploy_environments: >-
         [
           { "name": "dev", "base_url": "https://active10.dev.phedigital.co.uk", "smoke_test_url": "https://active10.dev.phedigital.co.uk/healthcheck", "predeploy_script": "scripts/collectstatic_predeploy.sh" },
+          { "name": "uat", "base_url": "https://active10.stg.phedigital.co.uk", "smoke_test_url": "https://active10.stg.phedigital.co.uk/healthcheck", "predeploy_script": "scripts/collectstatic_predeploy.sh" },
+          { "name": "prd", "base_url": "https://active10.prod.phedigital.co.uk", "smoke_test_url": "https://active10.prod.phedigital.co.uk/healthcheck", "predeploy_script": "scripts/collectstatic_predeploy.sh" }
+      post_deploy_test_command: |
+        python -m pip install -r tests/integration/requirements.txt
+        python -m pytest -c pyproject.toml tests/integration -m "not authenticated and not admin_write and not debug_docs" --require-content --junitxml=test-results/integration.xml
+        # Dev overrides these tests to allow empty content and exclude integrity checks.
+      deploy_environments: >-
+        [
+          { "name": "dev", "base_url": "https://active10.dev.phedigital.co.uk", "smoke_test_url": "https://active10.dev.phedigital.co.uk/healthcheck", "predeploy_script": "scripts/collectstatic_predeploy.sh", "post_deploy_test_command": "python -m pip install -r tests/integration/requirements.txt && python -m pytest -c pyproject.toml tests/integration -m \"not authenticated and not admin_write and not debug_docs and not integrity\" --junitxml=test-results/integration.xml" },
           { "name": "uat", "base_url": "https://active10.stg.phedigital.co.uk", "smoke_test_url": "https://active10.stg.phedigital.co.uk/healthcheck", "predeploy_script": "scripts/collectstatic_predeploy.sh" },
           { "name": "prd", "base_url": "https://active10.prod.phedigital.co.uk", "smoke_test_url": "https://active10.prod.phedigital.co.uk/healthcheck", "predeploy_script": "scripts/collectstatic_predeploy.sh" }
         ]
