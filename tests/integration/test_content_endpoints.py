@@ -31,6 +31,7 @@ def _assert_links_resolve(client, urls, *, description: str) -> None:
 def test_about_one_you_shape(client, base_url, require_content):
     data = _get_json(client, base_url, "/api/v1/active10/about-one-you/")
     assert isinstance(data, dict)
+    require_content(data, "About One You")
     assert isinstance(data.get("about"), dict)
     assert isinstance(data["about"].get("text"), str)
 
@@ -157,7 +158,7 @@ def test_dynamic_texts_shape(client, base_url):
         assert isinstance(entries, dict), f"Expected dict for {target}"
 
 
-def test_global_rules_shape(client, base_url):
+def test_global_rules_shape(client, base_url, require_content):
     data = _get_json(client, base_url, "/api/v1/active10/global_rules/")
     assert isinstance(data, dict)
 
@@ -166,7 +167,7 @@ def test_global_rules_shape(client, base_url):
 
     assert_fields(data["terms_conditions"], {"text": str})
     assert isinstance(data["app"], dict)
-    assert data["app"], "App version data should not be empty"
+    require_content(data["app"], "App version data")
 
 
 def test_goals_list_shape(client, base_url, require_content):

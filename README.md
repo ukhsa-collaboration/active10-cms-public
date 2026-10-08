@@ -48,7 +48,8 @@ checks. They skip locally when credentials are absent. Secure session/CSRF cooki
 require HTTPS for admin tests. Non-development environments enforce 2FA, so
 password-only login may not be sufficient.
 
-Content-dependent tests skip if a collection is empty. Use `--require-content`
+The deployment pipeline allows empty content in dev and requires content in uat
+and prd. Content-dependent tests skip if a collection or singleton is empty. Use `--require-content`
 in a populated test environment to make that a failure. Rewards list, missing
 slug/category and rejected-write checks run even when rewards are empty; detail
 and category checks are independent for each version.

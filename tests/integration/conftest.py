@@ -43,7 +43,7 @@ def pytest_addoption(parser):
 @pytest.fixture
 def require_content(request):
     def check(records, description):
-        assert isinstance(records, list), f"{description}: expected a JSON list"
+        assert isinstance(records, (list, dict)), f"{description}: expected a JSON list or object"
         if not records:
             message = f"{description}: no content available"
             if request.config.getoption("--require-content"):
