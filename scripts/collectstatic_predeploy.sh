@@ -1,25 +1,38 @@
 #!/usr/bin/env bash
-# Runs collectstatic once before deploy so new static assets exist in S3 before the ECS task definition is updated.
-# Expects DEPLOY_ENVIRONMENT to be set by the calling deploy workflow (e.g. dev, uat, prd).
+# Collect from the release image before updating the ECS service.
+# DEPLOY_ENVIRONMENT and DEPLOY_IMAGE are supplied by the deploy workflow.
 set -euo pipefail
 
 : "${DEPLOY_ENVIRONMENT:?DEPLOY_ENVIRONMENT must be set}"
+: "${DEPLOY_IMAGE:?DEPLOY_IMAGE must be set}"
+: "${AWS_REGION:?AWS_REGION must be set}"
 
 export AWS_STORAGE_BUCKET_NAME="aw-active10-euw2-${DEPLOY_ENVIRONMENT}-s3-media"
-export DJANGO_SETTINGS_MODULE=active10.settings
 
-python3 -m venv .venv-collectstatic
-# shellcheck disable=SC1091
-source .venv-collectstatic/bin/activate
+# Authenticate to the release image's ECR registry using the deploy role.
+registry_hostname="${DEPLOY_IMAGE%%/*}"
+docker_config_dir=$(mktemp -d)
+trap 'rm -rf "$docker_config_dir"' EXIT
+export DOCKER_CONFIG="$docker_config_dir"
 
-pip install --quiet --upgrade pip
-pip install --quiet -r requirements.txt
+echo "$(date -u +%FT%TZ) Authenticating to release image registry"
+aws ecr get-login-password --region "$AWS_REGION" |
+  docker login --username AWS --password-stdin "$registry_hostname"
 
-echo "$(date -u +%FT%TZ) Starting collectstatic"
-python -u manage.py collectstatic --noinput --verbosity 2
-echo "$(date -u +%FT%TZ) collectstatic finished; deactivating virtual environment"
+echo "$(date -u +%FT%TZ) Pulling release image: $DEPLOY_IMAGE"
+docker pull "$DEPLOY_IMAGE"
 
-deactivate
-echo "$(date -u +%FT%TZ) Removing .venv-collectstatic"
-rm -rf .venv-collectstatic
+echo "$(date -u +%FT%TZ) Starting collectstatic from release image"
+docker run --rm \
+  --entrypoint python \
+  --env AWS_ACCESS_KEY_ID \
+  --env AWS_SECRET_ACCESS_KEY \
+  --env AWS_SESSION_TOKEN \
+  --env AWS_REGION \
+  --env AWS_DEFAULT_REGION \
+  --env AWS_STORAGE_BUCKET_NAME \
+  --env DJANGO_SETTINGS_MODULE=active10.settings \
+  "$DEPLOY_IMAGE" \
+  -u manage.py collectstatic --noinput --verbosity 2
+
 echo "$(date -u +%FT%TZ) Static asset predeploy finished"
