@@ -4,12 +4,12 @@ ENV PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1
 
-# WARNING: the GIS packages (binutils libproj-dev gdal-bin) are not used by the project (no django.contrib.gis).
-# gdal pulls in libmariadb3, mariadb-common and libxml2, which are the only CRITICAL findings in trivy
-# (no Debian fix available yet). Dropping them brings the image to 0 CRITICAL.
+# No compiler on purpose: every dependency installs from a cp312 manylinux wheel.
+# The GIS packages (binutils libproj-dev gdal-bin) were dropped: unused (no django.contrib.gis) and gdal pulled in
+# libmariadb3/libxml2 with unfixed CRITICAL CVEs. curl is kept for container health checks.
 RUN apt-get update \
  && apt-get upgrade -y \
- && apt-get install -y binutils libproj-dev gdal-bin curl \
+ && apt-get install -y --no-install-recommends curl \
  && rm -rf /var/lib/apt/lists/*
 
 # emSign/eMudhra incident: Debian's ca-certificates still ships the roots that upstream (Mozilla/certifi) removed.
