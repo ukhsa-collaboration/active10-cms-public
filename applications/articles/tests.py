@@ -27,7 +27,7 @@ class TestArticlesViewList:
             response = view.list(view.request)
         assert response.status_code == 400
 
-    def test_default_applies_users_and_walking(self):
+    def test_default_applies_all_users_and_walking(self):
         view = _view({})
         qs = mock.MagicMock()
         with (
@@ -37,9 +37,20 @@ class TestArticlesViewList:
         ):
             response = view.list(view.request)
         assert response.data == ["ok"]
-        # default user_group == "users" -> cascade with all_users
-        qs.filter.assert_called_once_with(user_group__in=["users", "all_users"])
+        # default user_group == "all_users" -> exact match (no cascade since 6fe3e6e)
+        qs.filter.assert_called_once_with(user_group="all_users")
         assert fa.call_args.args[1] == ActivityType.WALKING
+
+    def test_all_skips_user_group_filter(self):
+        view = _view({"user_group": "all"})
+        qs = mock.MagicMock()
+        with (
+            mock.patch.object(view, "get_queryset", return_value=qs),
+            mock.patch.object(views, "filter_by_activity", return_value=qs),
+            mock.patch.object(view, "get_serializer", return_value=SimpleNamespace(data=[])),
+        ):
+            view.list(view.request)
+        qs.filter.assert_not_called()
 
     def test_all_users_branch_and_wheeling(self):
         view = _view({"user_group": "all_users", "activity_type": "wheeling"})
