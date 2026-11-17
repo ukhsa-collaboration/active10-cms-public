@@ -3,7 +3,7 @@
 _.python.venv = { path = ".venv", create = true }
 
 [tools]
-python = "3.11"
+python = "3.12"
 lefthook = "latest"
 trivy = "latest"
 gitleaks = "latest"
@@ -57,7 +57,9 @@ run = "basedpyright"
 
 [tasks.audit]
 description = "Scan dependencies for CVEs (CRITICAL only)"
-run = "trivy fs --scanners vuln --exit-code 1 ."
+# .venv and src/ hold third-party checkouts (pip VCS deps such as django-survey-monkey and its poetry.lock);
+# what actually gets installed is pinned in requirements.txt, which is scanned.
+run = "trivy fs --scanners vuln --exit-code 1 --skip-dirs .venv --skip-dirs src ."
 
 [tasks.leaks]
 description = "Check for secrets in the codebase"
