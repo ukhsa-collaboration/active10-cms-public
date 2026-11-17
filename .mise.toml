@@ -3,7 +3,7 @@
 _.python.venv = { path = ".venv", create = true }
 
 [tools]
-python = "3.11"
+python = "3.12"
 lefthook = "latest"
 trivy = "latest"
 gitleaks = "latest"
