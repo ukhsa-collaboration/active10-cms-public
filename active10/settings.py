@@ -229,8 +229,6 @@ TIME_ZONE = "UTC"
 
 USE_I18N = True
 
-USE_L10N = True
-
 USE_TZ = True
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
@@ -435,11 +433,15 @@ if getenv("AWS_STORAGE_BUCKET_NAME", None) is not None:
     # s3 static settings
     STATIC_LOCATION = ""
     STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_LOCATION}/"
-    STATICFILES_STORAGE = "storages.backends.s3boto3.S3StaticStorage"
 
     # s3 public media settings
     MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_LOCATION}/"
-    DEFAULT_FILE_STORAGE = "active10.s3utils.MediaRootS3BotoStorage"
+
+    # Django 5.1 removed STATICFILES_STORAGE / DEFAULT_FILE_STORAGE in favour of STORAGES.
+    STORAGES = {
+        "default": {"BACKEND": "active10.s3utils.MediaRootS3BotoStorage"},
+        "staticfiles": {"BACKEND": "storages.backends.s3boto3.S3StaticStorage"},
+    }
 
     # For CKEditor
     AWS_QUERYSTRING_AUTH = False

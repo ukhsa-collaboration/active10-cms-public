@@ -1,6 +1,6 @@
 # Python/Django tooling configuration.
 # Synced from code-quality-template (python/pyproject.toml) by /hai5-init
-# and adapted for active10 (Python 3.11, Django settings = active10.settings).
+# and adapted for active10 (Python 3.12, Django settings = active10.settings).
 #
 # Companion packages to add to requirements.txt for the full toolchain:
 #     ruff basedpyright django-stubs djangorestframework-stubs
@@ -14,7 +14,7 @@
 
 [tool.ruff]
 # Must match .python-version, mise's [tools] python, and basedpyright.
-target-version = "py311"
+target-version = "py312"
 line-length = 120
 indent-width = 4
 
@@ -107,7 +107,7 @@ useLibraryCodeForTypes = true
 reportMissingTypeStubs = false
 
 # Pin to the project's actual Python version (matches .python-version).
-pythonVersion = "3.11"
+pythonVersion = "3.12"
 
 [tool.django-stubs]
 django_settings_module = "active10.settings"
