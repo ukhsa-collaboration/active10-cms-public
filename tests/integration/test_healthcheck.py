@@ -12,5 +12,5 @@ def test_healthcheck(client, base_url):
     assert isinstance(data, dict)
     assert "DatabaseBackend" in data and "MigrationsHealthCheck" in data
 
-    assert data["DatabaseBackend"] == "working"
-    assert data["MigrationsHealthCheck"] == "working"
+    assert data["DatabaseBackend"] == "OK"
+    assert data["MigrationsHealthCheck"] == "OK"
