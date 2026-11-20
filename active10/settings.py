@@ -259,7 +259,7 @@ BATON = {
             "type": "app",
             "name": "auth",
             "label": "Authentication",
-            "icon": "fa fa-user-secret",
+            "icon": "key",
             "models": (
                 {"name": "user", "label": "Users"},
                 {"name": "group", "label": "Groups"},
@@ -268,7 +268,7 @@ BATON = {
         {
             "type": "free",
             "label": "Security",
-            "icon": "fa fa-lock",
+            "icon": "lock",
             "children": [
                 {
                     "type": "free",
